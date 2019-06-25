@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.fhadmin.org/">
+  <process id="KEY_weixiu" name="报修流程" isExecutable="true">
+    <startEvent id="start" name="开始"></startEvent>
+    <userTask id="WX1" name="报修员申请工单" activiti:assignee="#{USERNAME}">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.jykj.activiti.config.TaskListenHandler"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="WX2" name="派工给质检员" activiti:assignee="5d11e40aaf6d21fb1ef2b2d5">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.jykj.activiti.config.TaskListenHandler"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="WX3" name="填写维修作业内容" activiti:assignee="5d11f029af6d21fb1ef31843">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.jykj.activiti.config.TaskListenHandler"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="WX4" name="填写质检员检验结果" activiti:assignee="5d11f029af6d21fb1ef31843">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.jykj.activiti.config.TaskListenHandler"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <exclusiveGateway id="pt2"></exclusiveGateway>
+    <userTask id="WX5" name="通知司机" activiti:assignee="#{USERNAME}">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.jykj.activiti.config.TaskListenHandler"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <endEvent id="end" name="结束"></endEvent>
+    <userTask id="WX6" name="维修工维修" activiti:assignee="5d11f029af6d21fb1ef31843">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.jykj.activiti.config.TaskListenHandler"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <exclusiveGateway id="pt1" name="判断是否需要领料"></exclusiveGateway>
+    <sequenceFlow id="flow1" sourceRef="start" targetRef="WX1"></sequenceFlow>
+    <sequenceFlow id="sid-0493E3BC-0275-4BF2-BF9D-F55C3235F569" sourceRef="WX5" targetRef="end"></sequenceFlow>
+    <sequenceFlow id="flow8" name="不合格" sourceRef="pt2" targetRef="WX6">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${RESULT == "不合格"}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow7" sourceRef="WX4" targetRef="pt2"></sequenceFlow>
+    <userTask id="WX11" name="维修管理员填写汽配信息" activiti:assignee="5d11f029af6d21fb1ef31843">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.jykj.activiti.config.TaskListenHandler"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="WX8" name="报修员申请非易耗汽配" activiti:assignee="#{USERNAME}">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.jykj.activiti.config.TaskListenHandler"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="WX9" name="仓管员审核" activiti:assignee="5d11e417af6d21fb1ef2b337">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.jykj.activiti.config.TaskListenHandler"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <exclusiveGateway id="pt3"></exclusiveGateway>
+    <sequenceFlow id="sid-99F2023E-59C5-45B3-AE9F-4AAE029C9D59" name="审核情况" sourceRef="WX9" targetRef="pt3"></sequenceFlow>
+    <sequenceFlow id="flow12" name="领料" sourceRef="pt1" targetRef="WX11">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${RESULT == "领料"}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow14" name="已发放物料" sourceRef="pt3" targetRef="WX6">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${RESULT == "已发放"}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow3" sourceRef="WX2" targetRef="WX3"></sequenceFlow>
+    <sequenceFlow id="flow13" name="驳回" sourceRef="pt3" targetRef="WX8">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${RESULT == "驳回"}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-5E4996E4-780F-4C1A-8851-09C209D350ED" sourceRef="WX8" targetRef="WX9"></sequenceFlow>
+    <exclusiveGateway id="sid-407AED39-5B45-4365-8EA5-1F1524129C05"></exclusiveGateway>
+    <sequenceFlow id="sid-D459058A-D981-4420-8248-EC5644480E02" sourceRef="WX11" targetRef="sid-407AED39-5B45-4365-8EA5-1F1524129C05"></sequenceFlow>
+    <userTask id="WX10" name="指定维修员" activiti:assignee="role_5d11f029af6d21fb1ef31843">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.jykj.activiti.config.TaskListenHandler"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="sid-EF0B6594-8C46-49EE-9BC5-42C09A05DB0F" sourceRef="WX3" targetRef="WX10"></sequenceFlow>
+    <sequenceFlow id="sid-6FF7553B-4271-4A15-8338-52E18EC0AD70" sourceRef="WX10" targetRef="pt1"></sequenceFlow>
+    <sequenceFlow id="sid-2F1A4193-1341-402D-A781-400FEECBBFE6" name="易耗品" sourceRef="sid-407AED39-5B45-4365-8EA5-1F1524129C05" targetRef="WX9">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${RESULT == "易耗品"}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-9DCBE00D-2196-4B16-AFC9-1B5F7E20612C" name="非易耗品申请" sourceRef="sid-407AED39-5B45-4365-8EA5-1F1524129C05" targetRef="WX8">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${RESULT == "非易耗品"}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow2" name="待领单" sourceRef="WX1" targetRef="WXJD"></sequenceFlow>
+    <userTask id="WXJD" name="车间管理员接单" activiti:assignee="5d11e40aaf6d21fb1ef2b2d5">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.jykj.activiti.config.TaskListenHandler"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="WXSJ" name="施救车间接单" activiti:assignee="5d11e40aaf6d21fb1ef2b2d5">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.jykj.activiti.config.TaskListenHandler"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <exclusiveGateway id="sid-E903EF73-87E0-427B-A798-8063FDDBFF1E"></exclusiveGateway>
+    <sequenceFlow id="sid-45B3381C-A85A-4820-8354-F6AC9E28B06E" sourceRef="WXJD" targetRef="sid-E903EF73-87E0-427B-A798-8063FDDBFF1E"></sequenceFlow>
+    <sequenceFlow id="sid-53F2B288-0A4A-4601-9756-CDB2CD8E12CD" sourceRef="WXSJ" targetRef="WX2"></sequenceFlow>
+    <sequenceFlow id="flow5" name="无领料" sourceRef="pt1" targetRef="WX6">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${RESULT == "无领料"}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-7413C320-E442-4E16-97E5-53B859894594" name="接单" sourceRef="sid-E903EF73-87E0-427B-A798-8063FDDBFF1E" targetRef="WX2">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${RESULT == "接单"}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-5920D413-0FBF-47D1-862C-C384EA211CB1" name="派工给施救车间" sourceRef="sid-E903EF73-87E0-427B-A798-8063FDDBFF1E" targetRef="WXSJ">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${RESULT == "派工给施救车间"}]]></conditionExpression>
+    </sequenceFlow>
+    <exclusiveGateway id="sid-C15774B8-24C5-4F29-A002-D7336EED5812"></exclusiveGateway>
+    <sequenceFlow id="sid-9FC9A1C2-457C-4DCA-9DF4-82B74EE434EF" sourceRef="WX6" targetRef="sid-C15774B8-24C5-4F29-A002-D7336EED5812"></sequenceFlow>
+    <sequenceFlow id="flow9" name="合格" sourceRef="pt2" targetRef="WX5">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${RESULT == "合格"}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-3B3AB9B8-CB51-47E6-85D5-D8D61F35F37D" sourceRef="WXXG" targetRef="WXQR"></sequenceFlow>
+    <userTask id="WXXG" name="修改作业内容">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.jykj.activiti.config.TaskListenHandler"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="WXQR" name="报修员确认新增作业内容" activiti:assignee="#{USERNAME}">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.jykj.activiti.config.TaskListenHandler"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="sid-275B0B06-F81D-4EC5-9B70-0D6E6FA0475F" sourceRef="WXQR" targetRef="WX10"></sequenceFlow>
+    <sequenceFlow id="flow6" name="待验收" sourceRef="sid-C15774B8-24C5-4F29-A002-D7336EED5812" targetRef="WX4">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${RESULT == "待验收"}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-168BC1DC-910B-4469-A666-512CD6DC09A5" name="需修改作业内容" sourceRef="sid-C15774B8-24C5-4F29-A002-D7336EED5812" targetRef="WXXG">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${RESULT == "修改作业"}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_KEY_weixiu">
+    <bpmndi:BPMNPlane bpmnElement="KEY_weixiu" id="BPMNPlane_KEY_weixiu">
+      <bpmndi:BPMNShape bpmnElement="start" id="BPMNShape_start">
+        <omgdc:Bounds height="30.0" width="30.0" x="85.0" y="40.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="WX1" id="BPMNShape_WX1">
+        <omgdc:Bounds height="80.0" width="100.0" x="145.0" y="15.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="WX2" id="BPMNShape_WX2">
+        <omgdc:Bounds height="80.0" width="100.0" x="315.0" y="75.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="WX3" id="BPMNShape_WX3">
+        <omgdc:Bounds height="80.0" width="100.0" x="450.0" y="75.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="WX4" id="BPMNShape_WX4">
+        <omgdc:Bounds height="80.0" width="100.0" x="870.0" y="75.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="pt2" id="BPMNShape_pt2">
+        <omgdc:Bounds height="40.0" width="40.0" x="990.0" y="95.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="WX5" id="BPMNShape_WX5">
+        <omgdc:Bounds height="80.0" width="100.0" x="1050.0" y="75.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="end" id="BPMNShape_end">
+        <omgdc:Bounds height="28.0" width="28.0" x="1086.0" y="197.3999999999998"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="WX6" id="BPMNShape_WX6">
+        <omgdc:Bounds height="80.0" width="100.0" x="690.0" y="176.40000000000003"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="pt1" id="BPMNShape_pt1">
+        <omgdc:Bounds height="40.0" width="40.0" x="625.0" y="196.40000000000003"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="WX11" id="BPMNShape_WX11">
+        <omgdc:Bounds height="80.0" width="100.0" x="585.0" y="255.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="WX8" id="BPMNShape_WX8">
+        <omgdc:Bounds height="80.0" width="100.0" x="660.0" y="495.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="WX9" id="BPMNShape_WX9">
+        <omgdc:Bounds height="80.0" width="100.0" x="750.0" y="390.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="pt3" id="BPMNShape_pt3">
+        <omgdc:Bounds height="40.0" width="40.0" x="885.0" y="410.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-407AED39-5B45-4365-8EA5-1F1524129C05" id="BPMNShape_sid-407AED39-5B45-4365-8EA5-1F1524129C05">
+        <omgdc:Bounds height="40.0" width="40.0" x="615.0" y="345.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="WX10" id="BPMNShape_WX10">
+        <omgdc:Bounds height="80.0" width="100.0" x="450.0" y="176.40000000000003"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="WXJD" id="BPMNShape_WXJD">
+        <omgdc:Bounds height="80.0" width="100.0" x="145.0" y="135.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="WXSJ" id="BPMNShape_WXSJ">
+        <omgdc:Bounds height="80.0" width="100.0" x="315.0" y="176.40000000000003"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-E903EF73-87E0-427B-A798-8063FDDBFF1E" id="BPMNShape_sid-E903EF73-87E0-427B-A798-8063FDDBFF1E">
+        <omgdc:Bounds height="40.0" width="40.0" x="270.0" y="155.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-C15774B8-24C5-4F29-A002-D7336EED5812" id="BPMNShape_sid-C15774B8-24C5-4F29-A002-D7336EED5812">
+        <omgdc:Bounds height="40.0" width="40.0" x="720.0" y="105.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="WXXG" id="BPMNShape_WXXG">
+        <omgdc:Bounds height="63.0" width="78.0" x="690.0" y="0.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="WXQR" id="BPMNShape_WXQR">
+        <omgdc:Bounds height="65.0" width="87.0" x="585.0" y="0.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sid-168BC1DC-910B-4469-A666-512CD6DC09A5" id="BPMNEdge_sid-168BC1DC-910B-4469-A666-512CD6DC09A5">
+        <omgdi:waypoint x="740.0" y="105.0"></omgdi:waypoint>
+        <omgdi:waypoint x="740.0" y="84.0"></omgdi:waypoint>
+        <omgdi:waypoint x="729.0" y="84.0"></omgdi:waypoint>
+        <omgdi:waypoint x="729.0" y="63.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-9FC9A1C2-457C-4DCA-9DF4-82B74EE434EF" id="BPMNEdge_sid-9FC9A1C2-457C-4DCA-9DF4-82B74EE434EF">
+        <omgdi:waypoint x="740.0" y="176.40000000000003"></omgdi:waypoint>
+        <omgdi:waypoint x="740.0" y="145.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-EF0B6594-8C46-49EE-9BC5-42C09A05DB0F" id="BPMNEdge_sid-EF0B6594-8C46-49EE-9BC5-42C09A05DB0F">
+        <omgdi:waypoint x="500.0" y="155.0"></omgdi:waypoint>
+        <omgdi:waypoint x="500.0" y="176.40000000000003"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-2F1A4193-1341-402D-A781-400FEECBBFE6" id="BPMNEdge_sid-2F1A4193-1341-402D-A781-400FEECBBFE6">
+        <omgdi:waypoint x="655.0" y="365.0"></omgdi:waypoint>
+        <omgdi:waypoint x="800.0" y="365.0"></omgdi:waypoint>
+        <omgdi:waypoint x="800.0" y="390.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-53F2B288-0A4A-4601-9756-CDB2CD8E12CD" id="BPMNEdge_sid-53F2B288-0A4A-4601-9756-CDB2CD8E12CD">
+        <omgdi:waypoint x="365.0" y="176.40000000000003"></omgdi:waypoint>
+        <omgdi:waypoint x="365.0" y="155.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-5920D413-0FBF-47D1-862C-C384EA211CB1" id="BPMNEdge_sid-5920D413-0FBF-47D1-862C-C384EA211CB1">
+        <omgdi:waypoint x="290.0" y="195.0"></omgdi:waypoint>
+        <omgdi:waypoint x="290.0" y="216.0"></omgdi:waypoint>
+        <omgdi:waypoint x="315.0" y="216.13333333333333"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-9DCBE00D-2196-4B16-AFC9-1B5F7E20612C" id="BPMNEdge_sid-9DCBE00D-2196-4B16-AFC9-1B5F7E20612C">
+        <omgdi:waypoint x="635.0" y="385.0"></omgdi:waypoint>
+        <omgdi:waypoint x="635.0" y="545.0"></omgdi:waypoint>
+        <omgdi:waypoint x="660.0" y="541.6666666666666"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="115.0" y="55.0"></omgdi:waypoint>
+        <omgdi:waypoint x="145.0" y="55.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="195.0" y="95.0"></omgdi:waypoint>
+        <omgdi:waypoint x="195.0" y="135.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="415.0" y="115.0"></omgdi:waypoint>
+        <omgdi:waypoint x="450.0" y="115.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="665.0" y="216.40000000000003"></omgdi:waypoint>
+        <omgdi:waypoint x="690.0" y="216.40000000000003"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="760.0" y="125.0"></omgdi:waypoint>
+        <omgdi:waypoint x="815.0" y="125.0"></omgdi:waypoint>
+        <omgdi:waypoint x="815.0" y="115.0"></omgdi:waypoint>
+        <omgdi:waypoint x="870.0" y="115.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="970.0" y="115.0"></omgdi:waypoint>
+        <omgdi:waypoint x="990.0" y="115.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="1010.0" y="135.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1010.0" y="216.0"></omgdi:waypoint>
+        <omgdi:waypoint x="790.0" y="216.32592592592596"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-3B3AB9B8-CB51-47E6-85D5-D8D61F35F37D" id="BPMNEdge_sid-3B3AB9B8-CB51-47E6-85D5-D8D61F35F37D">
+        <omgdi:waypoint x="690.0" y="31.888059701492537"></omgdi:waypoint>
+        <omgdi:waypoint x="672.0" y="32.06716417910447"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="1030.0" y="115.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1050.0" y="115.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow13" id="BPMNEdge_flow13">
+        <omgdi:waypoint x="905.0" y="450.0"></omgdi:waypoint>
+        <omgdi:waypoint x="905.0" y="535.0"></omgdi:waypoint>
+        <omgdi:waypoint x="760.0" y="535.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow14" id="BPMNEdge_flow14">
+        <omgdi:waypoint x="905.0" y="410.0"></omgdi:waypoint>
+        <omgdi:waypoint x="905.0" y="325.0"></omgdi:waypoint>
+        <omgdi:waypoint x="740.0" y="325.0"></omgdi:waypoint>
+        <omgdi:waypoint x="740.0" y="256.40000000000003"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-275B0B06-F81D-4EC5-9B70-0D6E6FA0475F" id="BPMNEdge_sid-275B0B06-F81D-4EC5-9B70-0D6E6FA0475F">
+        <omgdi:waypoint x="628.345971563981" y="65.0"></omgdi:waypoint>
+        <omgdi:waypoint x="628.0" y="138.0"></omgdi:waypoint>
+        <omgdi:waypoint x="550.0" y="185.77500000000003"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-45B3381C-A85A-4820-8354-F6AC9E28B06E" id="BPMNEdge_sid-45B3381C-A85A-4820-8354-F6AC9E28B06E">
+        <omgdi:waypoint x="245.0" y="175.0"></omgdi:waypoint>
+        <omgdi:waypoint x="270.0" y="175.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-7413C320-E442-4E16-97E5-53B859894594" id="BPMNEdge_sid-7413C320-E442-4E16-97E5-53B859894594">
+        <omgdi:waypoint x="290.0" y="155.0"></omgdi:waypoint>
+        <omgdi:waypoint x="290.0" y="115.0"></omgdi:waypoint>
+        <omgdi:waypoint x="315.0" y="115.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-5E4996E4-780F-4C1A-8851-09C209D350ED" id="BPMNEdge_sid-5E4996E4-780F-4C1A-8851-09C209D350ED">
+        <omgdi:waypoint x="710.0" y="495.0"></omgdi:waypoint>
+        <omgdi:waypoint x="710.0" y="430.0"></omgdi:waypoint>
+        <omgdi:waypoint x="750.0" y="430.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-99F2023E-59C5-45B3-AE9F-4AAE029C9D59" id="BPMNEdge_sid-99F2023E-59C5-45B3-AE9F-4AAE029C9D59">
+        <omgdi:waypoint x="850.0" y="430.0"></omgdi:waypoint>
+        <omgdi:waypoint x="885.0" y="430.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
+        <omgdi:waypoint x="642.7426636568849" y="234.1426636568849"></omgdi:waypoint>
+        <omgdi:waypoint x="640.089058524173" y="255.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-0493E3BC-0275-4BF2-BF9D-F55C3235F569" id="BPMNEdge_sid-0493E3BC-0275-4BF2-BF9D-F55C3235F569">
+        <omgdi:waypoint x="1100.0" y="155.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1100.0" y="197.3999999999998"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-D459058A-D981-4420-8248-EC5644480E02" id="BPMNEdge_sid-D459058A-D981-4420-8248-EC5644480E02">
+        <omgdi:waypoint x="635.0" y="335.0"></omgdi:waypoint>
+        <omgdi:waypoint x="635.0" y="345.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-6FF7553B-4271-4A15-8338-52E18EC0AD70" id="BPMNEdge_sid-6FF7553B-4271-4A15-8338-52E18EC0AD70">
+        <omgdi:waypoint x="550.0" y="216.40000000000003"></omgdi:waypoint>
+        <omgdi:waypoint x="625.0" y="216.40000000000003"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

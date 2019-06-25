@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jykj.dao.StockOddGoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.jykj.entity.StockOddGoods" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="model" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="code" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="unit" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="amount" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="remarks" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="supplier" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="purchase_num" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="price" jdbcType="FLOAT" javaType="java.lang.Float" />
+     </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, model, code, unit, amount, remarks, supplier, purchase_num, price
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_stock_odd_goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_stock_odd_goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jykj.entity.StockOddGoods" >
+    insert into t_stock_odd_goods (id, name, model, 
+      code, unit, amount, 
+      remarks, supplier, purchase_num, price)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{amount,jdbcType=VARCHAR},
+      #{remarks,jdbcType=VARCHAR}, #{supplier,jdbcType=INTEGER}, #{purchaseNum}, #{price})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jykj.entity.StockOddGoods" >
+    insert into t_stock_odd_goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="model != null" >
+        model,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="unit != null" >
+        unit,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="supplier != null" >
+        supplier,
+      </if>
+      <if test="purchaseNum != null ">
+        purchase_num,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null" >
+        #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="supplier != null" >
+        #{supplier,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseNum != null">
+        #{purchaseNum},
+      </if>
+      <if test="price!=null">
+        #{price},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jykj.entity.StockOddGoods" >
+    update t_stock_odd_goods
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null" >
+        model = #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null" >
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="supplier != null" >
+        supplier = #{supplier,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseNum!=null">
+        purchase_num = #{purchaseNum},
+      </if>
+      <if test="price!=null">
+        price = #{price}
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jykj.entity.StockOddGoods" >
+    update t_stock_odd_goods
+    set name = #{name,jdbcType=VARCHAR},
+      model = #{model,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      supplier = #{supplier,jdbcType=INTEGER},
+      purchase_num = #{purchasenNum},
+      price = #{price}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="queryByPurchaseNum" parameterType="java.lang.String" resultType="com.jykj.entity.StockOddGoods">
+    select a.id, a.name, a.model, a.code , a.unit, a.amount, a.remarks, a.supplier, b.name as supplierName, a.purchase_num as purchaseNum, a.price
+    from t_stock_odd_goods as a
+    LEFT JOIN t_supplier as b on a.supplier = b.id
+    where a.purchase_num = #{purchasenNum}
+  </select>
+
+  <delete id="deleteByPurchaseNum" parameterType="java.lang.String">
+    delete from t_stock_odd_goods where purchase_num = #{purchasenNum}
+  </delete>
+</mapper>

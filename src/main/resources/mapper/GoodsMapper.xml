@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jykj.dao.GoodsMapper">
+    <resultMap id="BaseResultMap" type="com.jykj.entity.Goods">
+        <constructor>
+            <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="code" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="inventory_quantity" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="last_purchasing_price" jdbcType="REAL" javaType="java.lang.Float"/>
+            <arg column="min_num" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="model" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="producer" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="purchasing_price" jdbcType="REAL" javaType="java.lang.Float"/>
+            <arg column="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="selling_price" jdbcType="REAL" javaType="java.lang.Float"/>
+            <arg column="state" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="unit" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="type_id" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="tenant_id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="url" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, code, inventory_quantity, last_purchasing_price, min_num, model, name, producer, 
+    purchasing_price, remarks, selling_price, state, unit, type_id, tenant_id, url
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_goods
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.jykj.entity.Goods">
+        insert into t_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="inventoryQuantity != null">
+                inventory_quantity,
+            </if>
+            <if test="lastPurchasingPrice != null">
+                last_purchasing_price,
+            </if>
+            <if test="minNum != null">
+                min_num,
+            </if>
+            <if test="model != null">
+                model,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="producer != null">
+                producer,
+            </if>
+            <if test="purchasingPrice != null">
+                purchasing_price,
+            </if>
+            <if test="remarks != null">
+                remarks,
+            </if>
+            <if test="sellingPrice != null">
+                selling_price,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="unit != null">
+                unit,
+            </if>
+            <if test="typeId != null">
+                type_id,
+            </if>
+            <if test="orgId != null">
+                tenant_id,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="inventoryQuantity != null">
+                #{inventoryQuantity,jdbcType=INTEGER},
+            </if>
+            <if test="lastPurchasingPrice != null">
+                #{lastPurchasingPrice,jdbcType=REAL},
+            </if>
+            <if test="minNum != null">
+                #{minNum,jdbcType=INTEGER},
+            </if>
+            <if test="model != null">
+                #{model,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="producer != null">
+                #{producer,jdbcType=VARCHAR},
+            </if>
+            <if test="purchasingPrice != null">
+                #{purchasingPrice,jdbcType=REAL},
+            </if>
+            <if test="remarks != null">
+                #{remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="sellingPrice != null">
+                #{sellingPrice,jdbcType=REAL},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+            <if test="unit != null">
+                #{unit,jdbcType=VARCHAR},
+            </if>
+            <if test="typeId != null">
+                #{typeId,jdbcType=INTEGER},
+            </if>
+            <if test="orgId != null">
+                #{orgId,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.jykj.entity.Goods">
+        update t_goods
+        <set>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="inventoryQuantity != null">
+                inventory_quantity = #{inventoryQuantity,jdbcType=INTEGER},
+            </if>
+            <if test="lastPurchasingPrice != null">
+                last_purchasing_price = #{lastPurchasingPrice,jdbcType=REAL},
+            </if>
+            <if test="minNum != null">
+                min_num = #{minNum,jdbcType=INTEGER},
+            </if>
+            <if test="model != null">
+                model = #{model,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="producer != null">
+                producer = #{producer,jdbcType=VARCHAR},
+            </if>
+            <if test="purchasingPrice != null">
+                purchasing_price = #{purchasingPrice,jdbcType=REAL},
+            </if>
+            <if test="remarks != null">
+                remarks = #{remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="sellingPrice != null">
+                selling_price = #{sellingPrice,jdbcType=REAL},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="unit != null">
+                unit = #{unit,jdbcType=VARCHAR},
+            </if>
+            <if test="typeId != null">
+                type_id = #{typeId,jdbcType=INTEGER},
+            </if>
+            <if test="orgId != null">
+                tenant_id = #{tenant_id,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="list" parameterType="java.util.Map" resultType="com.jykj.entity.Goods">
+        select s.id, s.code, s.inventory_quantity as inventoryQuantity, s.last_purchasing_price as lastPurchasingPrice,
+        s.min_num as minNum,
+        s.model, s.name, s.producer, s.purchasing_price as purchasingPrice, s.remarks, s.selling_price as
+        sellingPrice,
+        s.state, s.unit, s.type_id as typeId, s.tenant_id as tenantId, s.url,t.name as typeName
+        from t_goods s LEFT JOIN t_goods_type t on s.type_id=t.id
+        where 1 = 1
+        <if test="goodsName!=null and goodsName!=''">
+            and name like '%${goodsName}%'
+        </if>
+        <if test="goodsNum!=null and goodsNum!=''">
+            and code like '%${code}%'
+        </if>
+        <if test="inventoryQuantity!=null and inventoryQuantity ==0">
+            and inventory_quantity = #{inventoryQuantity}
+        </if>
+        <if test="inventoryQuantity!=null and inventoryQuantity !=0">
+            and inventory_quantity > #{inventoryQuantity}
+        </if>
+    </select>
+
+  <select id="listAlarm" parameterType="java.util.Map" resultType="com.jykj.entity.Goods">
+    SELECT id, code, inventory_quantity as inventoryQuantity, last_purchasing_price as lastPurchasingPrice, min_num as minNum,
+    model, name, producer, purchasing_price as purchasingPrice, remarks, selling_price as sellingPrice,
+    state, unit, type_id as typeId, tenant_id as tenantId, url
+    FROM t_goods
+    WHERE inventory_quantity <![CDATA[ < ]]> min_num
+    <if test="goodsName!=null and goodsName!=''">
+      and name like '%${goodsName}%'
+    </if>
+    <if test="goodsNum!=null and goodsNum!=''">
+      and code like '%${code}%'
+    </if>
+    <if test="inventoryQuantity!=null and inventoryQuantity ==0">
+      and inventory_quantity = #{inventoryQuantity}
+    </if>
+    <if test="inventoryQuantity!=null and inventoryQuantity !=0">
+      and inventory_quantity > #{inventoryQuantity}
+    </if>
+  </select>
+
+</mapper>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jykj.dao.PurchaseMapper" >
+  <resultMap id="BaseResultMap" type="com.jykj.entity.Purchase" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="amount_paid" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="amount_payable" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="purchase_date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="purchase_number" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="remarks" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="state" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="supplier_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, amount_paid, amount_payable, purchase_date, purchase_number, remarks, state, 
+    supplier_id, user_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_purchase
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_purchase
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jykj.entity.Purchase" >
+    insert into t_purchase (id, amount_paid, amount_payable, 
+      purchase_date, purchase_number, remarks, 
+      state, supplier_id, user_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{amountPaid,jdbcType=REAL}, #{amountPayable,jdbcType=REAL}, 
+      #{purchaseDate,jdbcType=TIMESTAMP}, #{purchaseNumber,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER}, #{supplierId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jykj.entity.Purchase" >
+    insert into t_purchase
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="amountPaid != null" >
+        amount_paid,
+      </if>
+      <if test="amountPayable != null" >
+        amount_payable,
+      </if>
+      <if test="purchaseDate != null" >
+        purchase_date,
+      </if>
+      <if test="purchaseNumber != null" >
+        purchase_number,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="supplierId != null" >
+        supplier_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="amountPaid != null" >
+        #{amountPaid,jdbcType=REAL},
+      </if>
+      <if test="amountPayable != null" >
+        #{amountPayable,jdbcType=REAL},
+      </if>
+      <if test="purchaseDate != null" >
+        #{purchaseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaseNumber != null" >
+        #{purchaseNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="supplierId != null" >
+        #{supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jykj.entity.Purchase" >
+    update t_purchase
+    <set >
+      <if test="amountPaid != null" >
+        amount_paid = #{amountPaid,jdbcType=REAL},
+      </if>
+      <if test="amountPayable != null" >
+        amount_payable = #{amountPayable,jdbcType=REAL},
+      </if>
+      <if test="purchaseDate != null" >
+        purchase_date = #{purchaseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaseNumber != null" >
+        purchase_number = #{purchaseNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="supplierId != null" >
+        supplier_id = #{supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jykj.entity.Purchase" >
+    update t_purchase
+    set amount_paid = #{amountPaid,jdbcType=REAL},
+      amount_payable = #{amountPayable,jdbcType=REAL},
+      purchase_date = #{purchaseDate,jdbcType=TIMESTAMP},
+      purchase_number = #{purchaseNumber,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      supplier_id = #{supplierId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
