@@ -3,7 +3,10 @@ package com.jykj.controller.fix;
 import com.github.pagehelper.PageInfo;
 import com.jykj.controller.BaseController;
 import com.jykj.entity.LoginInfo;
+import com.jykj.entity.OverTask;
 import com.jykj.entity.Result;
+import com.jykj.entity.WaitTask;
+import com.jykj.mongo.MongoDBCollectionOperation;
 import com.jykj.service.ProcessModelService;
 import io.swagger.annotations.Api;
 import org.activiti.engine.ProcessEngine;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +45,9 @@ public class WaitTaskController extends BaseController {
     @Autowired
     private RepositoryService repositoryService;
 
+    @Autowired
+    private MongoDBCollectionOperation tenantStaffMongoDBCollection;
+
     @RequestMapping(value = "/waitTask", method = RequestMethod.POST)
     public Result waitTaskList(String vehicleNum,
                                String farm,
@@ -49,36 +56,33 @@ public class WaitTaskController extends BaseController {
                                @RequestParam(defaultValue = "1")Integer pageIndex,
                                @RequestParam(defaultValue = "15")Integer pageSize,
                                HttpServletRequest request) {
-//        List<Object> list = processModelService.waitTaskList(vehicleNum, farm, startTime, endTime, pageIndex, pageSize);
-//        PageInfo<Object> pageInfo = new PageInfo<>(list);
-        TaskService taskService = processEngine.getTaskService();
         LoginInfo loginInfo = getUserInfo(request);
-        //任务负责人
-        String assignee = loginInfo.getSub();
-
-        TaskQuery taskQuery = taskService.createTaskQuery();
-        taskQuery.taskAssignee(assignee);
-
-        String processDefinitionKey = "KEY_weixiu";
-        List<Task> list = taskQuery.processDefinitionKey(processDefinitionKey).list();
-        for (Task task : list) {
-            String processInstanceId = task.getProcessInstanceId();
-            ProcessInstance processInstance = runtimeService
-                    .createProcessInstanceQuery()
-                    .processInstanceId(processInstanceId)
-                    .singleResult();
-            //从流程实例对象获取bussinesskey
-            String businessKey = processInstance.getBusinessKey();
-            //根据businessKey查询业务系统，获取相关的业务信息
-            System.out.println("流程实例id：" + task.getProcessInstanceId());
-            System.out.println("任务id：" + task.getId());
-            System.out.println("任务标识：" + task.getTaskDefinitionKey());
-            System.out.println("任务负责人：" + task.getAssignee());
-            System.out.println("任务名称：" + task.getName());
-            System.out.println("任务创建时间：" + task.getCreateTime());
-            System.out.println("++++++++++++++++++++++++++");
+        List<WaitTask> list = processModelService.waitTaskList(loginInfo, vehicleNum, farm, startTime, endTime, pageIndex, pageSize);
+        for (WaitTask waitTask: list) {
+            Map<String,Object> map = tenantStaffMongoDBCollection.findBySelfId(waitTask.getAssignee());
+            waitTask.setAssigneeName(map.get("name").toString());
         }
-        return Result.createSuccess("查询成功");
+        PageInfo<WaitTask> pageInfo = new PageInfo<>(list);
+        return Result.createSuccess("查询成功", pageInfo);
+    }
+
+    @RequestMapping(value = "/overTask", method = RequestMethod.POST)
+    public Result overTask(String vehicleNum,
+                           String farm,
+                           String startTime,
+                           String endTime,
+                           @RequestParam(defaultValue = "1")Integer pageIndex,
+                           @RequestParam(defaultValue = "15")Integer pageSize,
+                           HttpServletRequest request) {
+        LoginInfo loginInfo = getUserInfo(request);
+        List<OverTask> list = processModelService.overTask(loginInfo, vehicleNum, farm, startTime, endTime, pageIndex, pageSize);
+        for (OverTask overTask: list) {
+            Map<String,Object> map = tenantStaffMongoDBCollection.findBySelfId(overTask.getAssignee());
+            overTask.setAssigneeName(map.get("name").toString());
+            overTask.setTimeLong(overTask.getEndTime().getTime() - overTask.getStartTime().getTime());
+        }
+        PageInfo<OverTask> pageInfo = new PageInfo<>(list);
+        return Result.createSuccess("查询成功", pageInfo);
     }
 
 }

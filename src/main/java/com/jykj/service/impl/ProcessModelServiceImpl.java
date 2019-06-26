@@ -3,7 +3,10 @@ package com.jykj.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jykj.dao.ProcessModelMapper;
+import com.jykj.entity.LoginInfo;
+import com.jykj.entity.OverTask;
 import com.jykj.entity.ProcessModel;
+import com.jykj.entity.WaitTask;
 import com.jykj.service.ProcessModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,13 +32,15 @@ public class ProcessModelServiceImpl implements ProcessModelService {
     }
 
     @Override
-    public List<Object> waitTaskList(String vehicleNum,
-                                     String farm,
-                                     String startTime,
-                                     String endTime,
-                                     Integer pageIndex,
-                                     Integer pageSize) {
+    public List<WaitTask> waitTaskList(LoginInfo loginInfo,
+                                       String vehicleNum,
+                                       String farm,
+                                       String startTime,
+                                       String endTime,
+                                       Integer pageIndex,
+                                       Integer pageSize) {
         Map<String, Object> map = new HashMap<>();
+        map.put("userId", loginInfo.getSub());
         map.put("vehicleNum", vehicleNum);
         map.put("farm", farm);
         map.put("startTime", startTime);
@@ -43,7 +48,28 @@ public class ProcessModelServiceImpl implements ProcessModelService {
         if(pageIndex!=null&&pageSize!=null){
             PageHelper.startPage(pageIndex, pageSize);
         }
-        List<Object> list = processModelMapper.waitTaskList(map);
+        List<WaitTask> list = processModelMapper.waitTaskList(map);
+        return list;
+    }
+
+    @Override
+    public List<OverTask> overTask(LoginInfo loginInfo,
+                                 String vehicleNum,
+                                 String farm,
+                                 String startTime,
+                                 String endTime,
+                                 Integer pageIndex,
+                                 Integer pageSize) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", loginInfo.getSub());
+        map.put("vehicleNum", vehicleNum);
+        map.put("farm", farm);
+        map.put("startTime", startTime);
+        map.put("endTime", endTime);
+        if(pageIndex!=null&&pageSize!=null){
+            PageHelper.startPage(pageIndex, pageSize);
+        }
+        List<OverTask> list = processModelMapper.overTask(map);
         return list;
     }
 }

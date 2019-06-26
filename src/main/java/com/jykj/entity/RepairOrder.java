@@ -31,6 +31,8 @@ public class RepairOrder {
 
     private String engineNo;
 
+    private String processInstanceId;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
@@ -290,5 +292,13 @@ public class RepairOrder {
 
     public void setFarm(String farm) {
         this.farm = farm;
+    }
+
+    public String getProcessInstanceId() {
+        return processInstanceId;
+    }
+
+    public void setProcessInstanceId(String processInstanceId) {
+        this.processInstanceId = processInstanceId;
     }
 }

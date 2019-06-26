@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
-@Api(value = "维修单据", tags = "维修单据")
+@Api(value = "维修工单", tags = "维修工单")
 @RestController
 @RequestMapping("/service/cencus/ro")
 public class RepairOrderController extends BaseController {
@@ -77,7 +77,7 @@ public class RepairOrderController extends BaseController {
         repairOrder.setCommitName(loginInfo.getName());
         repairOrder.setRepairStatus(0);
         repairOrder.setCreateTime(date);
-        repairOrderService.insertSelective(repairOrder);
+//        repairOrderService.insertSelective(repairOrder);
 
         //默认模型ID 为 1
         Model modelData = repositoryService.getModel("1");
@@ -97,6 +97,8 @@ public class RepairOrderController extends BaseController {
         TaskService taskService = processEngine.getTaskService();
         taskService.complete(task.getId());
 
+        repairOrder.setProcessInstanceId(processInstance.getId());
+        repairOrderService.insertSelective(repairOrder);
         return Result.createSuccess("添加成功", task);
     }
 

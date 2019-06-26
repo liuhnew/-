@@ -1,5 +1,7 @@
 package com.jykj.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Allot {
@@ -19,6 +21,7 @@ public class Allot {
 
     private Integer state;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     private Integer createUserId;
@@ -33,9 +36,12 @@ public class Allot {
 
     private String confirmUser;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date confirmDate;
 
-    public Integer getId() {
+    private String allotNum;
+
+   public Integer getId() {
         return id;
     }
 
@@ -161,5 +167,13 @@ public class Allot {
 
     public void setConfirmDate(Date confirmDate) {
         this.confirmDate = confirmDate;
+    }
+
+    public String getAllotNum() {
+        return allotNum;
+    }
+
+    public void setAllotNum(String allotNum) {
+        this.allotNum = allotNum;
     }
 }

@@ -1,18 +1,23 @@
 package com.jykj.entity;
 
-public class WaitTask {
+import java.util.Date;
+
+public class OverTask {
 
     String processName;
     String processKey;
     String commitName;
     String assignee;
-    String assigneeName;
     String vehicleNum;
     String repairNum;
     String farm;
     String currentTaskName;
     String createTime;
     String taskDefKey;
+    Date startTime;
+    Date endTime;
+    Long timeLong;
+    String assigneeName;
 
     public String getAssigneeName() {
         return assigneeName;
@@ -100,5 +105,29 @@ public class WaitTask {
 
     public void setTaskDefKey(String taskDefKey) {
         this.taskDefKey = taskDefKey;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public Long getTimeLong() {
+        return timeLong;
+    }
+
+    public void setTimeLong(Long timeLong) {
+        this.timeLong = timeLong;
     }
 }

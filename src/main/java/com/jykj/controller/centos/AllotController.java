@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 @RestController
@@ -40,6 +42,8 @@ public class AllotController {
         Allot allot = null;
         if (goods!=null){
             allot = new Allot();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+            allot.setAllotNum("WX"+dateFormat.format(new Date()));
             allot.setCreateTime(new Date());
             allot.setCreateUserId(1);
             allot.setGoodsName(goods.getName());

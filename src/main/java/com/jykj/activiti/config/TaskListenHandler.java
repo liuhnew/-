@@ -26,10 +26,29 @@ public class TaskListenHandler implements TaskListener {
     public void notify(DelegateTask delegateTask) {
         String eventName = delegateTask.getEventName();
         if ("create".equals(eventName)){
-            String assignee = delegateTask.getAssignee();
-            if (assignee.startsWith("roles")) {
+//            String assignee = delegateTask.getAssignee();
+//            if (assignee.startsWith("roles")) {
+//                Map<String, Object> query = new HashMap<>();
+//                query.put("roles.5d06159ad5ca6ee6ca4baf29", new ObjectId(delegateTask.getAssignee()));
+//                List<DBObject> list = tenantRoleMongoDBCollection.find(query);
+//                List<String> users = new ArrayList<>();
+//                for (DBObject object : list) {
+//                    Map<String,Object> map = object.toMap();
+//                    users.add(map.get("_id").toString());
+//                }
+//                delegateTask.setVariable(delegateTask.getAssignee(), users);
+//            }else {
+//                delegateTask.getVariable("");
+//            }
+            if (delegateTask.getTaskDefinitionKey().equals("WX1")||
+                    delegateTask.getTaskDefinitionKey().equals("WX5")||
+                    delegateTask.getTaskDefinitionKey().equals("WX8")||
+                    delegateTask.getTaskDefinitionKey().equals("WXOR")){
+
+            }else {
+                String assignee = delegateTask.getAssignee();
                 Map<String, Object> query = new HashMap<>();
-                query.put("roles.5d06159ad5ca6ee6ca4baf29", new ObjectId(delegateTask.getAssignee()));
+                query.put("roles.5d06159ad5ca6ee6ca4baf29", new ObjectId(assignee));
                 List<DBObject> list = tenantRoleMongoDBCollection.find(query);
                 List<String> users = new ArrayList<>();
                 for (DBObject object : list) {
@@ -37,8 +56,6 @@ public class TaskListenHandler implements TaskListener {
                     users.add(map.get("_id").toString());
                 }
                 delegateTask.setVariable(delegateTask.getAssignee(), users);
-            }else {
-                delegateTask.getVariable("");
             }
             delegateTask.setDueDate(DateTime.now().plusDays(3).toDate());
         }else if ("complete".equals(eventName)) {

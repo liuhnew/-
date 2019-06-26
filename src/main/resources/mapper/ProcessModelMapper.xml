@@ -197,7 +197,55 @@
      </if>
   </select>
 
-  <select id="waitTaskList" parameterType="java.util.Map" >
-
+  <select id="waitTaskList" parameterType="java.util.Map" resultType="com.jykj.entity.WaitTask">
+      select c.NAME_ as processName, c.KEY_ as processKey, b.commit_name as commitName,
+      a.ASSIGNEE_ as assignee,  b.vehicle_num as vehicleNum,
+      b.repair_num as repairNum, b.farm, a.NAME_ as currentTaskName, a.CREATE_TIME_ as createTime,
+      a.TASK_DEF_KEY_ as taskDefKey
+      from act_ru_task as a
+      left join t_repair_order as b on a.PROC_INST_ID_ = b.process_instance_id
+      left join act_re_procdef c on a.PROC_DEF_ID_ = c.ID_
+      where 1 = 1
+     <if test="userId!=null and userId!=''">
+        and a.ASSIGNEE_ = #{userId}
+     </if>
+     <if test="vehicleNum!=null and vehicleNum!=''">
+        and  b.vehicle_num like '%${vehicleNum}%'
+     </if>
+     <if test="farm!=null and farm!=''">
+         and b.farm = #{farm}
+     </if>
+     <if test="startTime！=null and startTime !=''">
+          and DATE_FORMAT(a.CREATE_TIME_, '%y-%m-%d') <![CDATA[ >= ]]> #{startTime}
+     </if>
+      <if test="endTime！=null and endTime !=''">
+          and DATE_FORMAT(a.CREATE_TIME_, '%y-%m-%d') <![CDATA[ <= ]]> #{endTime}
+      </if>
   </select>
+
+    <select id="overTask" parameterType="java.util.Map" resultType="com.jykj.entity.OverTask">
+        select c.NAME_ as processName, c.KEY_ as processKey, b.commit_name as commitName,
+        a.ASSIGNEE_ as assignee,  b.vehicle_num as vehicleNum,
+        b.repair_num as repairNum, b.farm, a.NAME_ as currentTaskName, a.CREATE_TIME_ as createTime,
+        a.TASK_DEF_KEY_ as taskDefKey, a.START_TIME_ as startTime, a.END_TIME_ as endTime
+        from act_hi_taskinst as a
+        left join t_repair_order as b on a.PROC_INST_ID_ = b.process_instance_id
+        left join act_re_procdef c on a.PROC_DEF_ID_ = c.ID_
+        where 1 = 1 and a.TASK_DEF_KEY_ = 'end' and  a.END_TIME_ is not null
+        <if test="userId!=null and userId!=''">
+            and a.ASSIGNEE_ = #{userId}
+        </if>
+        <if test="vehicleNum!=null and vehicleNum!=''">
+            and  b.vehicle_num like '%${vehicleNum}%'
+        </if>
+        <if test="farm!=null and farm!=''">
+            and b.farm = #{farm}
+        </if>
+        <if test="startTime！=null and startTime !=''">
+            and DATE_FORMAT(a.CREATE_TIME_, '%y-%m-%d') <![CDATA[ >= ]]> #{startTime}
+        </if>
+        <if test="endTime！=null and endTime !=''">
+            and DATE_FORMAT(a.CREATE_TIME_, '%y-%m-%d') <![CDATA[ <= ]]> #{endTime}
+        </if>
+    </select>
 </mapper>

@@ -17,10 +17,12 @@
       <arg column="out_repo" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="confirm_user" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="confirm_date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+        <arg column="allot_num" jdbcType="VARCHAR" javaType="java.lang.String" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    id, goods_name, goods_model, price, num, state, create_time, create_user_id, org_id, remark, in_repo, out_repo, confirm_user, confirm_date
+    id, goods_name, goods_model, price, num, state, create_time,
+    create_user_id, org_id, remark, in_repo, out_repo, confirm_user, confirm_date, allot_num
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -34,10 +36,10 @@
   </delete>
   <insert id="insert" parameterType="com.jykj.entity.Allot" >
     insert into t_allot (id, goods_name, goods_model,price, num, state, create_time,
-      create_user_id, org_id, remark, in_repo, out_repo, confirm_user, confirm_date)
+      create_user_id, org_id, remark, in_repo, out_repo, confirm_user, confirm_date, allot_num)
     values (#{id,jdbcType=INTEGER}, #{goodsName,jdbcType=VARCHAR}, #{goodsModel,jdbcType=VARCHAR},
       #{price,jdbcType=REAL}, #{num,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=INTEGER}, #{orgId,jdbcType=VARCHAR}, #{remark}, #{inRepo}, #{outRepo}, #{confirmUser}, #{confirmDate})
+      #{createUserId,jdbcType=INTEGER}, #{orgId,jdbcType=VARCHAR}, #{remark}, #{inRepo}, #{outRepo}, #{confirmUser}, #{confirmDate}, #{allotNum})
   </insert>
   <insert id="insertSelective" parameterType="com.jykj.entity.Allot" >
     insert into t_allot
@@ -84,6 +86,9 @@
       <if test="confirmDate != null" >
         confirm_date,
       </if>
+        <if test="allotNum!=null">
+            allot_num,
+        </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -128,6 +133,9 @@
       <if test="confirmDate != null" >
         #{confirmDate},
       </if>
+        <if test="allotNum!=null">
+            #{allotNum}
+        </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.jykj.entity.Allot" >
@@ -172,6 +180,9 @@
       <if test="confirmDate != null" >
         confirm_date = #{confirmDate},
       </if>
+      <if test="allotNum!=null">
+          allot_num = #{allotNum}
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -189,14 +200,15 @@
       in_repo = #{inRepo},
       out_repo = #{outRepo},
       confrim_user = #{confirmUser},
-      confirm_date = #{confirmDate}
+      confirm_date = #{confirmDate},
+      allot_num = #{allotNum}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
   <select id="queryByAllot" parameterType="java.lang.String" resultType="com.jykj.entity.Allot" >
     select a.id, a.goods_name as goodsName, a.goods_model as  goodsModel, a.price, a.num, a.state, a.create_time as createTime,
             a.create_user_id as createUserId, a.org_id as orgId, a.in_repo as inRepo,
-            a.out_repo as outRepo, a.confirm_user as confirmUser, a.confirm_date as confirmDate
+            a.out_repo as outRepo, a.confirm_user as confirmUser, a.confirm_date as confirmDate, a.allot_num as allotNum
             from t_allot as a
             where a.org_id like '${orgId}%'
   </select>
