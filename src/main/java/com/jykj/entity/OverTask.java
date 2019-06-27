@@ -1,9 +1,12 @@
 package com.jykj.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class OverTask {
 
+    String taskId;
     String processName;
     String processKey;
     String commitName;
@@ -12,12 +15,22 @@ public class OverTask {
     String repairNum;
     String farm;
     String currentTaskName;
-    String createTime;
     String taskDefKey;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     Date startTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     Date endTime;
     Long timeLong;
     String assigneeName;
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
 
     public String getAssigneeName() {
         return assigneeName;
@@ -89,14 +102,6 @@ public class OverTask {
 
     public void setCurrentTaskName(String currentTaskName) {
         this.currentTaskName = currentTaskName;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
     }
 
     public String getTaskDefKey() {

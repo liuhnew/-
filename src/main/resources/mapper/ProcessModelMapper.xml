@@ -198,7 +198,7 @@
   </select>
 
   <select id="waitTaskList" parameterType="java.util.Map" resultType="com.jykj.entity.WaitTask">
-      select c.NAME_ as processName, c.KEY_ as processKey, b.commit_name as commitName,
+      select a.ID_ as taskId, c.NAME_ as processName, c.KEY_ as processKey, b.commit_name as commitName,
       a.ASSIGNEE_ as assignee,  b.vehicle_num as vehicleNum,
       b.repair_num as repairNum, b.farm, a.NAME_ as currentTaskName, a.CREATE_TIME_ as createTime,
       a.TASK_DEF_KEY_ as taskDefKey
@@ -215,18 +215,18 @@
      <if test="farm!=null and farm!=''">
          and b.farm = #{farm}
      </if>
-     <if test="startTime！=null and startTime !=''">
+     <if test="startTime!=null and startTime !=''">
           and DATE_FORMAT(a.CREATE_TIME_, '%y-%m-%d') <![CDATA[ >= ]]> #{startTime}
      </if>
-      <if test="endTime！=null and endTime !=''">
+      <if test="endTime!=null and endTime !=''">
           and DATE_FORMAT(a.CREATE_TIME_, '%y-%m-%d') <![CDATA[ <= ]]> #{endTime}
       </if>
   </select>
 
     <select id="overTask" parameterType="java.util.Map" resultType="com.jykj.entity.OverTask">
-        select c.NAME_ as processName, c.KEY_ as processKey, b.commit_name as commitName,
+        select a.ID_ as taskId, c.NAME_ as processName, c.KEY_ as processKey, b.commit_name as commitName,
         a.ASSIGNEE_ as assignee,  b.vehicle_num as vehicleNum,
-        b.repair_num as repairNum, b.farm, a.NAME_ as currentTaskName, a.CREATE_TIME_ as createTime,
+        b.repair_num as repairNum, b.farm, a.NAME_ as currentTaskName,
         a.TASK_DEF_KEY_ as taskDefKey, a.START_TIME_ as startTime, a.END_TIME_ as endTime
         from act_hi_taskinst as a
         left join t_repair_order as b on a.PROC_INST_ID_ = b.process_instance_id
@@ -241,11 +241,79 @@
         <if test="farm!=null and farm!=''">
             and b.farm = #{farm}
         </if>
-        <if test="startTime！=null and startTime !=''">
-            and DATE_FORMAT(a.CREATE_TIME_, '%y-%m-%d') <![CDATA[ >= ]]> #{startTime}
+        <if test="startTime!=null and startTime !=''">
+            and DATE_FORMAT(a.START_TIME_, '%y-%m-%d') <![CDATA[ >= ]]> #{startTime}
         </if>
-        <if test="endTime！=null and endTime !=''">
-            and DATE_FORMAT(a.CREATE_TIME_, '%y-%m-%d') <![CDATA[ <= ]]> #{endTime}
+        <if test="endTime!=null and endTime !=''">
+            and DATE_FORMAT(a.START_TIME_, '%y-%m-%d') <![CDATA[ <= ]]> #{endTime}
+        </if>
+    </select>
+
+    <select id="ruProcess" parameterType="java.util.Map" resultType="com.jykj.entity.RunProcess">
+        select a.ID_ as taskId, c.NAME_ as processName, c.KEY_ as processKey, b.commit_name as commitName,
+        a.ASSIGNEE_ as assignee,  b.vehicle_num as vehicleNum,
+        b.repair_num as repairNum, b.farm, a.NAME_ as currentTaskName,
+        a.TASK_DEF_KEY_ as taskDefKey, a.START_TIME_ as startTime, a.END_TIME_ as endTime
+        from act_hi_taskinst as a
+        left join t_repair_order as b on a.PROC_INST_ID_ = b.process_instance_id
+        left join act_re_procdef c on a.PROC_DEF_ID_ = c.ID_
+        where 1 = 1 and a.END_TIME_ is null
+        <if test="userId!=null and userId!=''">
+            and a.ASSIGNEE_ = #{userId}
+        </if>
+        <if test="vehicleNum!=null and vehicleNum!=''">
+            and  b.vehicle_num like '%${vehicleNum}%'
+        </if>
+        <if test="processName!=null and processName!=''">
+            and c.NAME_ like '%${processName}%'
+        </if>
+        <if test="farm!=null and farm!=''">
+            and b.farm = #{farm}
+        </if>
+        <if test="startTime!=null and startTime !=''">
+            and DATE_FORMAT(a.START_TIME_, '%y-%m-%d') <![CDATA[ >= ]]> #{startTime}
+        </if>
+        <if test="endTime!=null and endTime !=''">
+            and DATE_FORMAT(a.START_TIME_, '%y-%m-%d') <![CDATA[ <= ]]> #{endTime}
+        </if>
+    </select>
+
+    <select id="runProcessDetail" resultType="com.jykj.entity.RunProcess" parameterType="java.lang.String">
+        select a.ID_ as taskId,c.NAME_ as processName, c.KEY_ as processKey, b.commit_name as commitName,
+        a.ASSIGNEE_ as assignee,  b.vehicle_num as vehicleNum,
+        b.repair_num as repairNum, b.farm, a.NAME_ as currentTaskName,
+        a.TASK_DEF_KEY_ as taskDefKey, a.START_TIME_ as startTime, a.END_TIME_ as endTime
+        from act_hi_taskinst as a
+        left join t_repair_order as b on a.PROC_INST_ID_ = b.process_instance_id
+        left join act_re_procdef c on a.PROC_DEF_ID_ = c.ID_
+        where 1 = 1 and a.PROC_INST_ID_ = #{proInsId}
+        order by a.ID_ desc
+    </select>
+
+    <select id="queryProcessDetail" parameterType="string" resultType="com.jykj.entity.RepairOrder">
+      select repair_id as repairId, repair_num as repairNum, driver_name as driverName,
+       driver_num as driverNum, commit_name as commitName, checker_name as checkerName,
+       repair_status as repairStatus, vehicle_num as vehicleNum, tenant_id as tenantId,
+       repair_message as repairMessage,create_time as createTime,contact_name as contactName
+      from t_repair_order
+      where process_instance_id = #{processInstanceId}
+    </select>
+
+    <select id="hiProcess" parameterType="java.util.Map" resultType="com.jykj.entity.HistoryProcess">
+      select  a.ID_ as id, c.NAME_ as proName,c.VERSION_ as version, a.START_TIME_ as startTime, a.END_TIME_ as endTime,
+       a.DURATION_ AS duration
+      from act_hi_procinst as a
+      left join t_repair_order as b on a.PROC_INST_ID_ = b.process_instance_id
+      left join act_re_procdef as c on a.PROC_DEF_ID_ = c.ID_
+        where a.endTime is not null
+        <if test="processName!=null and processName!=''">
+            and c.NAME_ like '%${processName}%'
+        </if>
+        <if test="startTime!=null and startTime !=''">
+            and DATE_FORMAT(a.START_TIME_, '%y-%m-%d') <![CDATA[ >= ]]> #{startTime}
+        </if>
+        <if test="endTime!=null and endTime !=''">
+            and DATE_FORMAT(a.START_TIME_, '%y-%m-%d') <![CDATA[ <= ]]> #{endTime}
         </if>
     </select>
 </mapper>

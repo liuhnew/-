@@ -1,8 +1,6 @@
 package com.jykj.dao;
 
-import com.jykj.entity.OverTask;
-import com.jykj.entity.ProcessModel;
-import com.jykj.entity.WaitTask;
+import com.jykj.entity.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,4 +15,13 @@ public interface ProcessModelMapper {
     List<WaitTask> waitTaskList(Map<String, Object> map);
 
     List<OverTask> overTask(Map<String, Object> map);
+
+    List<RunProcess> ruProcess(Map<String, Object> map);
+
+    List<Object> runProcessDetail(@Param("proInsId") String processInstanceId);
+
+    RepairOrder queryProcessDetail(String processInstanceId);
+
+    List<HistoryProcess> hiProcess(Map<String,Object> map);
+
 }

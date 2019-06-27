@@ -1,19 +1,28 @@
 package com.jykj.entity;
 
-public class WaitTask {
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.util.Date;
+
+public class RunProcess {
 
     private String taskId;
     String processName;
     String processKey;
     String commitName;
     String assignee;
-    String assigneeName;
     String vehicleNum;
     String repairNum;
     String farm;
     String currentTaskName;
-    String createTime;
     String taskDefKey;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    Date startTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    Date endTime;
+    Long timeLong;
+    String assigneeName;
 
     public String getTaskId() {
         return taskId;
@@ -95,19 +104,35 @@ public class WaitTask {
         this.currentTaskName = currentTaskName;
     }
 
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
     public String getTaskDefKey() {
         return taskDefKey;
     }
 
     public void setTaskDefKey(String taskDefKey) {
         this.taskDefKey = taskDefKey;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public Long getTimeLong() {
+        return timeLong;
+    }
+
+    public void setTimeLong(Long timeLong) {
+        this.timeLong = timeLong;
     }
 }

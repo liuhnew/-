@@ -1,12 +1,10 @@
 package com.jykj.service;
 
 import com.github.pagehelper.PageInfo;
-import com.jykj.entity.LoginInfo;
-import com.jykj.entity.OverTask;
-import com.jykj.entity.ProcessModel;
-import com.jykj.entity.WaitTask;
+import com.jykj.entity.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProcessModelService {
 
@@ -29,4 +27,21 @@ public interface ProcessModelService {
                             String endTime,
                             Integer pageIndex,
                             Integer pageSize);
+
+    List<RunProcess> ruProcess(LoginInfo loginInfo,
+                               String processName,
+                               String startTime,
+                               String endTime,
+                               Integer pageIndex,
+                               Integer pageSize);
+
+    List<Object> runProcessDetail(String processInstanceId);
+
+    RepairOrder queryProcessDetail(String processInstanceId);
+
+    List<HistoryProcess> hiProcess(String processName,
+                                   String startTime,
+                                   String endTime,
+                                   Integer pageIndex,
+                                   Integer pageSize);
 }

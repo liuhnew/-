@@ -214,8 +214,14 @@ public class MyController {
         HistoryService historyService = processEngine.getHistoryService();
         List<HistoricProcessInstance> list = historyService.createHistoricProcessInstanceQuery()
                 .orderByProcessInstanceStartTime().asc().list();
-        System.out.println(list.toString());
-        return Result.createSuccess("查询成功", list);
+        for (HistoricProcessInstance processInstance: list) {
+            System.out.println("----id---" + processInstance.getId());
+            System.out.println("----name---" + processInstance.getName());
+            System.out.println("----businessKey---" + processInstance.getBusinessKey());
+            System.out.println("----description---" + processInstance.getDescription());
+            System.out.println("-------" + processInstance.getStartTime());
+        }
+        return Result.createSuccess("查询成功");
     }
 
 }

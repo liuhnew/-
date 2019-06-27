@@ -59,8 +59,10 @@ public class WaitTaskController extends BaseController {
         LoginInfo loginInfo = getUserInfo(request);
         List<WaitTask> list = processModelService.waitTaskList(loginInfo, vehicleNum, farm, startTime, endTime, pageIndex, pageSize);
         for (WaitTask waitTask: list) {
-            Map<String,Object> map = tenantStaffMongoDBCollection.findBySelfId(waitTask.getAssignee());
-            waitTask.setAssigneeName(map.get("name").toString());
+            Map<String,Object> map = tenantStaffMongoDBCollection.findById(waitTask.getAssignee()).toMap();
+            if (map.get("name")!=null){
+                waitTask.setAssigneeName(map.get("name").toString());
+            }
         }
         PageInfo<WaitTask> pageInfo = new PageInfo<>(list);
         return Result.createSuccess("查询成功", pageInfo);
@@ -77,8 +79,10 @@ public class WaitTaskController extends BaseController {
         LoginInfo loginInfo = getUserInfo(request);
         List<OverTask> list = processModelService.overTask(loginInfo, vehicleNum, farm, startTime, endTime, pageIndex, pageSize);
         for (OverTask overTask: list) {
-            Map<String,Object> map = tenantStaffMongoDBCollection.findBySelfId(overTask.getAssignee());
-            overTask.setAssigneeName(map.get("name").toString());
+            Map<String,Object> map = tenantStaffMongoDBCollection.findById(overTask.getAssignee()).toMap();
+            if (map.get("name")!=null){
+                overTask.setAssigneeName(map.get("name").toString());
+            }
             overTask.setTimeLong(overTask.getEndTime().getTime() - overTask.getStartTime().getTime());
         }
         PageInfo<OverTask> pageInfo = new PageInfo<>(list);
