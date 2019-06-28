@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import com.jykj.entity.Goods;
 import com.jykj.service.GoodsService;
 
+import javax.annotation.Resource;
+
 /**
  * 商品Service实现类
  * @author Administrator
@@ -22,7 +24,7 @@ import com.jykj.service.GoodsService;
 @Service("goodsService")
 public class GoodsServiceImpl implements GoodsService{
 
-	@Autowired
+	@Resource
 	private GoodsMapper goodsMapper;
 
 	@Autowired
@@ -38,11 +40,13 @@ public class GoodsServiceImpl implements GoodsService{
 							Integer inventoryQuantity,
 							String goodsNum,
 							Integer pageIndex,
-							Integer pageSize) {
+							Integer pageSize,
+							List<String> tenantId) {
 		Map<String,Object> map = new HashMap<>();
 		map.put("goodsName", goodsName);
 		map.put("inventoryQuantity", inventoryQuantity);
 		map.put("goodsNum", goodsNum);
+		map.put("tenantId",tenantId);
 		if(pageIndex!=null&&pageSize!=null){
 			PageHelper.startPage(pageIndex, pageSize);
 		}
@@ -66,21 +70,15 @@ public class GoodsServiceImpl implements GoodsService{
 
 	@Override
 	public void save(Goods goods) {
-		tenantMainMongoDBCollection.findOne(goods.getTenantId());
-
-		Map<String,Object> map = new HashMap<>();
-		map.put("name", goods.getTenantName());
-		tenantMainMongoDBCollection.find(map);
 		goodsMapper.insert(goods);
 	}
 
 	@Override
 	public void update(Goods goods) {
-		tenantMainMongoDBCollection.findOne(goods.getTenantId());
-
+/*		Map<String,Object> tenantId = tenantMainMongoDBCollection.findOne(goods.getTenantId());
 		Map<String,Object> map = new HashMap<>();
 		map.put("name", goods.getTenantName());
-		tenantMainMongoDBCollection.find(map);
+		tenantMainMongoDBCollection.find(map);*/
 		goodsMapper.updateByPrimaryKey(goods);
 	}
 

@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.jykj.entity.Allot;
 import com.jykj.entity.Goods;
 import com.jykj.entity.Result;
+import com.jykj.mongo.MongoDBCollectionOperation;
 import com.jykj.service.AllotService;
 import com.jykj.service.GoodsService;
 import io.swagger.annotations.Api;
@@ -16,8 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import javax.annotation.Resource;
 import java.util.Date;
 
 @RestController
@@ -29,6 +29,9 @@ public class AllotController {
 
     @Autowired
     private GoodsService goodsService;
+
+    @Resource
+    private MongoDBCollectionOperation mongoDBCollectionOperation;
 
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "goodsId", value = "商品主键ID", required = false, dataType = "String", defaultValue = "1"),
@@ -42,8 +45,6 @@ public class AllotController {
         Allot allot = null;
         if (goods!=null){
             allot = new Allot();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-            allot.setAllotNum("WX"+dateFormat.format(new Date()));
             allot.setCreateTime(new Date());
             allot.setCreateUserId(1);
             allot.setGoodsName(goods.getName());
@@ -94,5 +95,8 @@ public class AllotController {
         return Result.createSuccess("查询成功", pageInfo);
     }
 
+    /*@RequestMapping(value = "allotList", method = RequestMethod.POST)
+    public Result allotList(Integer pageIndex,Integer pageSize,String orgId,Date beginTime,Date endTime){
 
+    }*/
 }

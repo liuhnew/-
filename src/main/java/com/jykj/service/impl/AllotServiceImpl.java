@@ -9,9 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service("allotService")
 public class AllotServiceImpl implements AllotService {
+
+    @Autowired
+    private AllotMapper allotMapper;
 
     @Override
     public PageInfo<Allot> list(String orgId,
@@ -21,9 +25,6 @@ public class AllotServiceImpl implements AllotService {
         List<Allot> list = allotMapper.queryByAllot(orgId);
         return new PageInfo<Allot>(list);
     }
-
-    @Autowired
-    private AllotMapper allotMapper;
 
     @Override
     public void save(Allot allot) {
@@ -46,7 +47,11 @@ public class AllotServiceImpl implements AllotService {
     }
 
     @Override
-    public Allot queryById(Integer id) {
-        return allotMapper.selectByPrimaryKey(id);
+    public Allot queryById(Integer id) {return allotMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<Allot> list(Map<String, Object> map) {
+        return allotMapper.list(map);
     }
 }

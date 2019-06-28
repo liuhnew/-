@@ -3,6 +3,7 @@ package com.jykj.service;
 import com.jykj.entity.Goods;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 商品Service接口
@@ -24,7 +25,8 @@ public interface GoodsService {
                      Integer inventoryQuantity,
                      String goodsNum,
                      Integer pageIndex,
-                     Integer pageSize);
+                     Integer pageSize,
+                     List<String> tenantId);
 
 
     /**

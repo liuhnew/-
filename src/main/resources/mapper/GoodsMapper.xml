@@ -17,30 +17,31 @@
             <arg column="state" jdbcType="INTEGER" javaType="java.lang.Integer"/>
             <arg column="unit" jdbcType="VARCHAR" javaType="java.lang.String"/>
             <arg column="type_id" jdbcType="INTEGER" javaType="java.lang.Integer"/>
-            <arg column="tenant_id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="tenant_id"  jdbcType="VARCHAR" javaType="java.lang.String"/>
             <arg column="url" jdbcType="VARCHAR" javaType="java.lang.String"/>
         </constructor>
     </resultMap>
+
     <sql id="Base_Column_List">
     id, code, inventory_quantity, last_purchasing_price, min_num, model, name, producer, 
     purchasing_price, remarks, selling_price, state, unit, type_id, tenant_id, url
   </sql>
+
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
         from t_goods
         where id = #{id,jdbcType=INTEGER}
     </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_goods
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
     <insert id="insert" parameterType="com.jykj.entity.Goods">
         insert into t_goods
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
             <if test="code != null">
                 code,
             </if>
@@ -80,17 +81,14 @@
             <if test="typeId != null">
                 type_id,
             </if>
-            <if test="orgId != null">
-                tenant_id,
-            </if>
             <if test="url != null">
                 url,
             </if>
+            <if test="tenantId != null">
+                tenant_id,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
             <if test="code != null">
                 #{code,jdbcType=VARCHAR},
             </if>
@@ -130,14 +128,15 @@
             <if test="typeId != null">
                 #{typeId,jdbcType=INTEGER},
             </if>
-            <if test="orgId != null">
-                #{orgId,jdbcType=VARCHAR},
-            </if>
             <if test="url != null">
                 #{url,jdbcType=VARCHAR},
             </if>
+            <if test="tenantId != null">
+                #{tenantId,jdbcType=VARCHAR},
+            </if>
         </trim>
     </insert>
+
     <update id="updateByPrimaryKey" parameterType="com.jykj.entity.Goods">
         update t_goods
         <set>
@@ -180,11 +179,11 @@
             <if test="typeId != null">
                 type_id = #{typeId,jdbcType=INTEGER},
             </if>
-            <if test="orgId != null">
-                tenant_id = #{tenant_id,jdbcType=VARCHAR},
-            </if>
             <if test="url != null">
                 url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="tenantId != null">
+                tenantId = #{tenantId,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
@@ -202,13 +201,18 @@
             and name like '%${goodsName}%'
         </if>
         <if test="goodsNum!=null and goodsNum!=''">
-            and code like '%${code}%'
+            and code like '%${goodsNum}%'
         </if>
         <if test="inventoryQuantity!=null and inventoryQuantity ==0">
             and inventory_quantity = #{inventoryQuantity}
         </if>
         <if test="inventoryQuantity!=null and inventoryQuantity !=0">
             and inventory_quantity > #{inventoryQuantity}
+        </if>
+        <if test="tenantId!=null and tenantId.size()>0">
+            <foreach collection="tenantId" item="tenantIds" open="AND tenant_id IN(" separator="," close=")">
+                #{tenantIds}
+            </foreach>
         </if>
     </select>
 
@@ -222,7 +226,7 @@
       and name like '%${goodsName}%'
     </if>
     <if test="goodsNum!=null and goodsNum!=''">
-      and code like '%${code}%'
+      and code like '%${goodsNum}%'
     </if>
     <if test="inventoryQuantity!=null and inventoryQuantity ==0">
       and inventory_quantity = #{inventoryQuantity}

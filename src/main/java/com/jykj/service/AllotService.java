@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.jykj.entity.Allot;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AllotService {
 
@@ -19,4 +20,5 @@ public interface AllotService {
 
     Allot queryById(Integer id);
 
+    List<Allot> list(Map<String,Object> map);
 }

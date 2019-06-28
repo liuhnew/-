@@ -58,9 +58,11 @@ public class GoodsAPIController extends BaseController {
     public Result list(String goodsName,
                        Integer inventoryQuantity,
                        String goodsNum,
+                       HttpServletRequest request,
                        @RequestParam(defaultValue = "1") Integer pageIndex,
                        @RequestParam(defaultValue = "15") Integer pageSize) throws Exception {
-        List<Goods> goodsList = goodsService.list(goodsName, inventoryQuantity, goodsNum, pageIndex, pageSize);
+        List<String> tenantId = super.tenantList(request);
+        List<Goods> goodsList = goodsService.list(goodsName, inventoryQuantity, goodsNum, pageIndex, pageSize,tenantId);
         PageInfo<Goods> pageInfo = new PageInfo<Goods>(goodsList);
         return Result.createSuccess("查询成功", pageInfo);
     }
@@ -108,9 +110,11 @@ public class GoodsAPIController extends BaseController {
     public Result listInventory(String goodsName,
                                 Integer inventoryQuantity,
                                 String goodsNum,
+                                HttpServletRequest request,
                                 @RequestParam(defaultValue = "1") Integer pageIndex,
                                 @RequestParam(defaultValue = "15") Integer pageSize) throws Exception {
-        List<Goods> goodsList = goodsService.list(goodsName, inventoryQuantity, goodsNum, pageIndex, pageSize);
+        List<String> list = super.tenantList(request);
+        List<Goods> goodsList = goodsService.list(goodsName, inventoryQuantity, goodsNum, pageIndex, pageSize,list);
         for (Goods g : goodsList) {
             g.setSaleTotal(saleListGoodsService.getTotalByGoodsId(g.getId()) - customerReturnListGoodsService.getTotalByGoodsId(g.getId())); // 设置销售总量
 
@@ -173,11 +177,9 @@ public class GoodsAPIController extends BaseController {
                        String remarks,
                        String sellingPrice,
                        Integer typeId,
-                       String tenantId,
-                       String tanentName,
                        String imgUrl,
                        HttpServletRequest request) throws Exception {
-
+        LoginInfo tenant = super.getUserInfo(request);
         Goods goods = null;
         if (id != null) {
             goods = goodsService.findById(id);
@@ -191,8 +193,7 @@ public class GoodsAPIController extends BaseController {
             goods.setSellingPrice(Float.parseFloat(sellingPrice));
             goods.setTypeId(typeId);
             goods.setUrl(imgUrl);
-            goods.setTenantId(tenantId);
-            goods.setTenantName(tanentName);
+            goods.setTenantId(tenant.getTenant());
             goodsService.update(goods);
             logService.save(new Log(Log.UPDATE_ACTION, "更新商品信息" + goods));
         } else {
@@ -204,12 +205,12 @@ public class GoodsAPIController extends BaseController {
             goods.setProducer(producer);
             goods.setPurchasingPrice(Float.parseFloat(purchasingPrice));
             goods.setRemarks(remarks);
+            goods.setState(0);
             goods.setSellingPrice(Float.parseFloat(sellingPrice));
             goods.setTypeId(typeId);
             goods.setUrl(imgUrl);
-            goods.setTenantId(tenantId);
-            goods.setTenantName(tanentName);
             goods.setLastPurchasingPrice(goods.getPurchasingPrice()); // 设置上次进价为当前价格
+            goods.setTenantId(tenant.getTenant());
             goodsService.save(goods);
             logService.save(new Log(Log.ADD_ACTION, "添加商品信息" + goods));
         }
