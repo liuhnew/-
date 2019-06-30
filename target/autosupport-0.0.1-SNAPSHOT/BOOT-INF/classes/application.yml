@@ -1,9 +1,0 @@
-server:
-  port: 8090
-  context-path: /
-first:
-  datasource:
-    driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://47.96.138.94:3306/db_automain?characterEncoding=utf8
-    username: root
-    password: zxzs@Mysql123456

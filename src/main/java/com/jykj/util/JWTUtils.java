@@ -1,5 +1,6 @@
 package com.jykj.util;
 
+import com.jykj.config.Jurisdiction;
 import com.jykj.config.SpringApplicationContextHolder;
 import com.jykj.entity.LoginInfo;
 import com.jykj.mongo.MongoDBCollectionOperation;
@@ -47,6 +48,7 @@ public class JWTUtils{
                 loginInfo.setName(map.get("name").toString());
                 loginInfo.setTenant(map.get("tenant").toString());
                 session.setAttribute("loginInfo", loginInfo);
+                Jurisdiction.session = session;
             }
         });
     }

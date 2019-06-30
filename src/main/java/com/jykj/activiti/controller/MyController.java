@@ -140,7 +140,7 @@ public class MyController {
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "id", value = "模型名称", required = false, dataType = "String", defaultValue = ""),
     })
-    @RequestMapping(value = "showImage", method = RequestMethod.POST)
+    @RequestMapping(value = "showImage", method = RequestMethod.GET)
     public void showImage(String id,
                           HttpServletResponse response) throws Exception {
         response.setContentType("image/png;charset=utf8");

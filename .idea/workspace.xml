@@ -2,28 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f79108c6-990e-493e-9afe-6c0f49cfbb46" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jykj/controller/fix/ProcessManagerController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jykj/dao/RuprocdefMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jykj/entity/ProDefEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jykj/service/RunTaskService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jykj/util/DelAllFile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jykj/util/FileUpload.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jykj/util/PathUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/ProcessManangerMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/RuprocdefMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/autosupport.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jykj/activiti/config/TaskListenHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jykj/activiti/config/TaskListenHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/jykj/activiti/controller/MyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jykj/activiti/controller/MyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jykj/controller/BaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jykj/controller/BaseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jykj/controller/centos/AllotController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jykj/controller/centos/AllotController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jykj/controller/fix/ProcessController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jykj/controller/fix/ProcessController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jykj/controller/fix/RepairOrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jykj/controller/fix/RepairOrderController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/jykj/controller/fix/WaitTaskController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jykj/controller/fix/WaitTaskController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jykj/entity/LoginInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jykj/entity/LoginInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jykj/entity/RepairOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jykj/entity/RepairOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/ProcessModelMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/ProcessModelMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/RepairOrderMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/RepairOrderMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jykj/util/JWTUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jykj/util/JWTUtils.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,8 +19,8 @@
       <file leaf-file-name="ProcessController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/jykj/controller/fix/ProcessController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="111">
-              <caret line="34" column="42" selection-start-line="34" selection-start-column="42" selection-end-line="34" selection-end-column="42" />
+            <state relative-caret-position="324">
+              <caret line="132" column="5" lean-forward="true" selection-start-line="132" selection-start-column="5" selection-end-line="132" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -50,29 +31,26 @@
       <file leaf-file-name="WaitTaskController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/jykj/controller/fix/WaitTaskController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="979">
-              <caret line="105" column="5" selection-start-line="105" selection-start-column="5" selection-end-line="105" selection-end-column="5" />
+            <state relative-caret-position="215">
+              <caret line="109" column="24" lean-forward="true" selection-start-line="109" selection-start-column="24" selection-end-line="109" selection-end-column="24" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ProcessManagerController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/jykj/controller/fix/ProcessManagerController.java">
+      <file leaf-file-name="MyController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/jykj/activiti/controller/MyController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="639">
-              <caret line="105" column="19" lean-forward="true" selection-start-line="105" selection-start-column="19" selection-end-line="105" selection-end-column="19" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="-465">
+              <caret line="176" lean-forward="true" selection-start-line="176" selection-end-line="176" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ModelSaveRestResource.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/jykj/activiti/controller/ModelSaveRestResource.java">
+      <file leaf-file-name="RuprocdefMapper.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/RuprocdefMapper.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="100" column="26" selection-start-line="100" selection-start-column="26" selection-end-line="100" selection-end-column="26" />
+            <state relative-caret-position="3945">
+              <caret line="251" column="29" lean-forward="true" selection-start-line="251" selection-start-column="29" selection-end-line="251" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -125,7 +103,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/jykj/service/ProcessManagerService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/jykj/dao/ProcessManagerMapper.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/jykj/service/impl/ProcessManagerServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/jykj/activiti/controller/MyController.java" />
         <option value="$PROJECT_DIR$/src/main/resources/mapper/ProcessManangerMapper.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/jykj/entity/ProDefEntity.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/jykj/service/RunTaskService.java" />
@@ -137,8 +114,10 @@
         <option value="$PROJECT_DIR$/src/main/java/com/jykj/entity/RepairOrder.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/jykj/controller/fix/RepairOrderController.java" />
         <option value="$PROJECT_DIR$/src/main/resources/mapper/RepairOrderMapper.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/jykj/controller/fix/WaitTaskController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/jykj/controller/fix/ProcessController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/jykj/activiti/controller/MyController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/jykj/util/JWTUtils.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/jykj/controller/fix/WaitTaskController.java" />
       </list>
     </option>
   </component>
@@ -161,10 +140,10 @@
       <path value="$PROJECT_DIR$/src/main/resources/static/editor-app/libs/es5-shim-15.3.4.5/package.json" />
     </packageJsonPaths>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="588" />
-    <option name="y" value="21" />
-    <option name="width" value="1400" />
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="x" value="95" />
+    <option name="y" value="181" />
+    <option name="width" value="1542" />
     <option name="height" value="953" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -215,25 +194,6 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="jykj" type="462c0819:PsiDirectoryNode" />
-              <item name="activiti" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="autosupport" type="b2602c69:ProjectViewProjectNode" />
-              <item name="-" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="jykj" type="462c0819:PsiDirectoryNode" />
-              <item name="activiti" type="462c0819:PsiDirectoryNode" />
-              <item name="controller" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="autosupport" type="b2602c69:ProjectViewProjectNode" />
-              <item name="-" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="jykj" type="462c0819:PsiDirectoryNode" />
               <item name="controller" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -252,6 +212,14 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="autosupport" type="b2602c69:ProjectViewProjectNode" />
+              <item name="-" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="mapper" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="autosupport" type="b2602c69:ProjectViewProjectNode" />
@@ -371,15 +339,16 @@
       <workItem from="1561598880407" duration="15041000" />
       <workItem from="1561653246545" duration="658000" />
       <workItem from="1561685108091" duration="43000" />
-      <workItem from="1561804543503" duration="17460000" />
+      <workItem from="1561804543503" duration="20132000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42142000" />
+    <option name="totallyTimeSpent" value="44814000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <frame x="237" y="35" width="1233" height="762" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -392,11 +361,12 @@
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.31383738" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.45363766" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.2553495" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49928674" visible="true" weight="0.28016084" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49928674" visible="true" weight="0.36" />
       <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info id="Structure" order="1" sideWeight="0.5007133" side_tool="true" weight="0.21313673" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.24973767" />
       <window_info id="UI Designer" order="2" />
@@ -408,7 +378,6 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
     <layout-to-restore>
       <window_info anchor="right" id="Palette" order="3" />
@@ -457,20 +426,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jykj/controller/restapi/GoodsAPIController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="25" selection-start-line="25" selection-end-line="25" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jykj/controller/fix/VehicleController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="35" column="33" selection-start-line="35" selection-start-column="33" selection-end-line="35" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/AllotMapper.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="435">
@@ -655,24 +610,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jykj/config/Jurisdiction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="29" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="29" />
-          <folding>
-            <element signature="e#166#167#0" expanded="true" />
-            <element signature="e#189#190#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jykj/activiti/config/TaskListenHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="30" column="79" selection-start-line="30" selection-start-column="79" selection-end-line="30" selection-end-column="79" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_211/src.zip!/java/lang/String.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="147">
@@ -850,13 +787,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/RuprocdefMapper.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
-          <caret line="260" column="28" lean-forward="true" selection-start-line="260" selection-start-column="28" selection-end-line="260" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jykj/entity/RepairOrder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="471">
@@ -880,13 +810,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jykj/activiti/controller/MyController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="439">
-          <caret line="207" selection-start-line="207" selection-end-line="211" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/processes/hello.bpmn20.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="207">
@@ -894,17 +817,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jykj/activiti/controller/ModelSaveRestResource.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jykj/config/Jurisdiction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="100" column="26" selection-start-line="100" selection-start-column="26" selection-end-line="100" selection-end-column="26" />
+        <state relative-caret-position="72">
+          <caret line="4" column="25" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="25" />
+          <folding>
+            <element signature="e#178#179#0" expanded="true" />
+            <element signature="e#208#209#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/jykj/controller/fix/WaitTaskController.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jykj/activiti/config/TaskListenHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="979">
-          <caret line="105" column="5" selection-start-line="105" selection-start-column="5" selection-end-line="105" selection-end-column="5" />
+        <state relative-caret-position="234">
+          <caret line="28" column="47" lean-forward="true" selection-start-line="28" selection-start-column="47" selection-end-line="28" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jykj/util/JWTUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="485">
+          <caret line="51" column="13" lean-forward="true" selection-start-line="51" selection-start-column="13" selection-end-line="51" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jykj/interceptor/WebInterceptor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="37" column="32" selection-start-line="37" selection-start-column="32" selection-end-line="37" selection-end-column="32" />
         </state>
       </provider>
     </entry>
@@ -918,10 +859,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jykj/activiti/controller/ModelSaveRestResource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="100" column="26" selection-start-line="100" selection-start-column="26" selection-end-line="100" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mapper/RuprocdefMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3945">
+          <caret line="251" column="29" lean-forward="true" selection-start-line="251" selection-start-column="29" selection-end-line="251" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jykj/controller/fix/WaitTaskController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="215">
+          <caret line="109" column="24" lean-forward="true" selection-start-line="109" selection-start-column="24" selection-end-line="109" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/jykj/activiti/controller/MyController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-465">
+          <caret line="176" lean-forward="true" selection-start-line="176" selection-end-line="176" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/jykj/controller/fix/ProcessController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
-          <caret line="34" column="42" selection-start-line="34" selection-start-column="42" selection-end-line="34" selection-end-column="42" />
+        <state relative-caret-position="324">
+          <caret line="132" column="5" lean-forward="true" selection-start-line="132" selection-start-column="5" selection-end-line="132" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

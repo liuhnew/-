@@ -2,12 +2,10 @@ package com.jykj.controller.fix;
 
 import com.github.pagehelper.PageInfo;
 import com.jykj.controller.BaseController;
-import com.jykj.entity.LoginInfo;
-import com.jykj.entity.OverTask;
-import com.jykj.entity.Result;
-import com.jykj.entity.WaitTask;
+import com.jykj.entity.*;
 import com.jykj.mongo.MongoDBCollectionOperation;
 import com.jykj.service.ProcessModelService;
+import com.jykj.service.RepairOrderService;
 import com.jykj.service.RunTaskService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -64,6 +62,9 @@ public class WaitTaskController extends BaseController {
     @Autowired
     private TaskService taskService;
 
+    @Autowired
+    private RepairOrderService repairOrderService;
+
     @RequestMapping(value = "/waitTask", method = RequestMethod.POST)
     public Result waitTaskList(String vehicleNum,
                                String farm,
@@ -110,14 +111,16 @@ public class WaitTaskController extends BaseController {
             @ApiImplicitParam(dataType = "string", defaultValue = "", name = "taskId", value = "任务ID", paramType = "query"),
             @ApiImplicitParam(dataType = "string", defaultValue = "", name = "remark", paramType = "query"),
     })
-    @RequestMapping(value = "hanleWX2", method = RequestMethod.POST)
+    @RequestMapping(value = "handleWX2", method = RequestMethod.POST)
     public Result handleWX2(String taskId,
                             HttpSession session,
                             HttpServletRequest request) {
         LoginInfo loginInfo = getUserInfo(request);
         logger.info("+++++++++" + loginInfo.getName() + "办理委派任务");
-        taskService.getVariable(taskId, "repairId");
-        return Result.createSuccess("asdasd");
+        String repairId = (String)taskService.getVariable(taskId, "repairId");
+        RepairOrder repairOrder = repairOrderService.selectByPrimaryKey(repairId);
+
+        return Result.createSuccess("");
     }
 
 
