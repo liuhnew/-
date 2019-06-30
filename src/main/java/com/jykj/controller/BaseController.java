@@ -4,6 +4,10 @@ import com.jykj.config.SpringApplicationContextHolder;
 import com.jykj.entity.LoginInfo;
 import com.jykj.mongo.MongoDBCollectionOperation;
 import com.jykj.service.UserService;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import org.apache.commons.lang3.StringUtils;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
@@ -11,9 +15,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class BaseController {
 
@@ -46,5 +48,51 @@ public class BaseController {
         LoginInfo loginInfo = (LoginInfo)request.getSession().getAttribute("loginInfo");
         List<String> list = userService.tenantList(loginInfo.getTenant());
         return list;
+    }
+
+    public String findCJAdmin(String userName) {
+        MongoDBCollectionOperation tenantStaffMongoDBCollection =
+                (MongoDBCollectionOperation) SpringApplicationContextHolder.getSpringBean("tenantStaffMongoDBCollection");
+        MongoDBCollectionOperation tenantRoleMongoDBCollection =
+                (MongoDBCollectionOperation) SpringApplicationContextHolder.getSpringBean("tenantRoleMongoDBCollection");
+        Map<String,Object> mePd = tenantStaffMongoDBCollection.findById(userName).toMap();
+        String tenantId = mePd.get("tenant").toString();
+        BasicDBObject basicDBObject = new BasicDBObject();
+        basicDBObject.put("tenant", new ObjectId(tenantId));
+        basicDBObject.put("name", "车间管理员");
+        Map<String,Object> role = tenantRoleMongoDBCollection.findOne(basicDBObject).toMap();
+        Map<String,Object> query = new HashMap<>();
+        query.put("roles.5d06159fd5ca6ee6ca4baf2a", role.get("_id"));
+        List<DBObject> list = tenantStaffMongoDBCollection.find(query);
+        List<String> usrNameList = new ArrayList<>();
+        if (list!=null && list.size()>0) {
+            for (DBObject object : list) {
+                usrNameList.add(object.toMap().get("mobile").toString());
+            }
+        }
+        return StringUtils.join(usrNameList, ",");
+    }
+
+    public String findBXY(String userName) {
+        MongoDBCollectionOperation tenantStaffMongoDBCollection =
+                (MongoDBCollectionOperation) SpringApplicationContextHolder.getSpringBean("tenantStaffMongoDBCollection");
+        MongoDBCollectionOperation tenantRoleMongoDBCollection =
+                (MongoDBCollectionOperation) SpringApplicationContextHolder.getSpringBean("tenantRoleMongoDBCollection");
+        Map<String,Object> mePd = tenantStaffMongoDBCollection.findById(userName).toMap();
+        String tenantId = mePd.get("tenant").toString();
+        BasicDBObject basicDBObject = new BasicDBObject();
+        basicDBObject.put("tenant", new ObjectId(tenantId));
+        basicDBObject.put("name", "报修员");
+        Map<String,Object> role = tenantRoleMongoDBCollection.findOne(basicDBObject).toMap();
+        Map<String,Object> query = new HashMap<>();
+        query.put("roles.5d06159fd5ca6ee6ca4baf2a", role.get("_id"));
+        List<DBObject> list = tenantStaffMongoDBCollection.find(query);
+        List<String> usrNameList = new ArrayList<>();
+        if (list!=null && list.size()>0) {
+            for (DBObject object : list) {
+                usrNameList.add(object.toMap().get("mobile").toString());
+            }
+        }
+        return StringUtils.join(usrNameList, ",");
     }
 }

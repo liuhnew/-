@@ -27,4 +27,9 @@ public class RunTaskServiceImpl implements RunTaskService {
                              Integer status) {
         ruprocdefMapper.onoffAllTask(id, status);
     }
+
+    @Override
+    public Map<String, Object> listbyTaskId(String id) {
+        return ruprocdefMapper.listbyTaskId(id);
+    }
 }

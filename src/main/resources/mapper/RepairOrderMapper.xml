@@ -29,12 +29,14 @@
       <arg column="engine_no" javaType="java.lang.String" jdbcType="VARCHAR" />
         <arg column="process_instance_id" javaType="java.lang.String" jdbcType="VARCHAR" />
         <arg column="task_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <arg column="dealer_name" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
     repair_id, repair_num, driver_name, driver_num, commit_name, checker_name, repair_status,
     vehicle_num, tenant_id, repair_message, create_time, appointment_time, get_time, update_time,
-    end_time, repair_progress, contact_name, contact_tel, remark, pick_goods_id, order_type, farm, vin, engine_no,process_instance_id, task_id
+    end_time, repair_progress, contact_name, contact_tel, remark, pick_goods_id, order_type, farm, vin, engine_no,
+    process_instance_id, task_id, dealer_name
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -53,7 +55,7 @@
       repair_message, create_time, appointment_time, 
       get_time, update_time, end_time, 
       repair_progress, contact_name, contact_tel, 
-      remark, pick_goods_id, order_type, farm, vin, engine_no, process_instance_id, task_id)
+      remark, pick_goods_id, order_type, farm, vin, engine_no, process_instance_id, task_id, dealer_name)
     values (#{repairId,jdbcType=VARCHAR}, #{repairNum,jdbcType=VARCHAR}, #{driverName,jdbcType=VARCHAR}, 
       #{driverNum,jdbcType=VARCHAR}, #{commitName,jdbcType=VARCHAR}, #{checkerName,jdbcType=VARCHAR},
       #{repairStatus,jdbcType=INTEGER}, #{vehicleNum,jdbcType=VARCHAR}, #{tenantId,jdbcType=VARCHAR},
@@ -61,7 +63,7 @@
       #{getTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
       #{repairProgress,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, #{contactTel,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{pickGoodsId,jdbcType=VARCHAR}, #{orderType}, #{farm}, #{vin}, #{engineNo},
-      #{processInstanceId}, #{taskId})
+      #{processInstanceId}, #{taskId}, #{dealerName})
   </insert>
   <insert id="insertSelective" parameterType="com.jykj.entity.RepairOrder">
     insert into t_repair_order
@@ -144,6 +146,9 @@
         <if test="taskId!=null">
             task_id
         </if>
+        <if test="dealerName!=null">
+            dealer_name
+        </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="repairId != null">
@@ -223,6 +228,9 @@
         </if>
         <if test="taskId!=null">
             #{taskId}
+        </if>
+        <if test="dealerName!=null">
+            #{dealerName}
         </if>
     </trim>
   </insert>
@@ -304,6 +312,9 @@
         <if test="taskId!=null">
             task_id = #{taskId}
         </if>
+        <if test="dealerName!=null">
+            dealer_name = #{dealerName}
+        </if>
     </set>
     where repair_id = #{repairId,jdbcType=VARCHAR}
   </update>
@@ -332,7 +343,8 @@
       vin = #{vin},
       engine_no = #{engineNo},
       process_instance_id = #{processInstanceId},
-      task_id = #{taskId}
+      task_id = #{taskId},
+      dealer_name = #{dealerName}
     where repair_id = #{repairId,jdbcType=VARCHAR}
   </update>
 
@@ -342,7 +354,7 @@
             a.repair_message as repairMessage, a.create_time as createTime, a.appointment_time as appointmentTime, a.get_time as getTime,
             a.update_time as updateTime, a.end_time as endTime, a.repair_progress as repairProgress, a.contact_name as contactName,
             a.contact_tel as contactTel, a.remark as remark, a.pick_goods_id as pickGoodsId, a.order_type as orderType,
-            a.farm as farm, a.vin , a.engine_no as engineNo, a.task_id as taskId
+            a.farm as farm, a.vin , a.engine_no as engineNo, a.task_id as taskId, a.dealer_name = #{dealerName}
     from t_repair_order as a
     where 1 = 1
     <if test="repairNum!=null and repairNum!=''">

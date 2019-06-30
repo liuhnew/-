@@ -267,12 +267,12 @@
 		where PROC_DEF_ID_ = #{id}
 	</update>
 		<!-- 通过taskId获取流程任务 -->
-	<select id="listbyTaskId" parameterType="java.util.Map" resultType="java.util.Map">
+	<select id="listbyTaskId" parameterType="string" resultType="java.util.Map">
 		select
 			*
 		from 
 			<include refid="tableName"></include>
-		where ID_ = #{ID_}
+		where ID_ = #{id}
 	</select>
 	
 			<!-- 通过EXECUTION_ID_获取流程任务 -->

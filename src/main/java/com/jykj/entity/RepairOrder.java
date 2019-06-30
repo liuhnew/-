@@ -17,7 +17,7 @@ public class RepairOrder {
 
     private String checkerName;
 
-    private Integer repairStatus;
+    private String repairStatus;
 
     private String vehicleNum;
 
@@ -64,7 +64,10 @@ public class RepairOrder {
 
     private String farm;
 
-    public RepairOrder(String repairId, String repairNum, String driverName, String driverNum, String commitName, String checkerName, Integer repairStatus, String vehicleNum, String tenantId, String tenantName, String repairMessage, String vin, String engineNo, Date createTime, Date appointmentTime, Date getTime, Date updateTime, Date endTime, String repairProgress, String contactName, String contactTel, String remark, String pickGoodsId, Integer orderType, String farm) {
+    private String dealerName;
+
+    public RepairOrder(String repairId, String repairNum, String driverName, String driverNum, String commitName, String checkerName,
+                       String repairStatus, String vehicleNum, String tenantId, String tenantName, String repairMessage, String vin, String engineNo, Date createTime, Date appointmentTime, Date getTime, Date updateTime, Date endTime, String repairProgress, String contactName, String contactTel, String remark, String pickGoodsId, Integer orderType, String farm) {
         this.repairId = repairId;
         this.repairNum = repairNum;
         this.driverName = driverName;
@@ -90,6 +93,14 @@ public class RepairOrder {
         this.pickGoodsId = pickGoodsId;
         this.orderType = orderType;
         this.farm = farm;
+    }
+
+    public String getDealerName() {
+        return dealerName;
+    }
+
+    public void setDealerName(String dealerName) {
+        this.dealerName = dealerName;
     }
 
     public String getVin() {
@@ -168,11 +179,11 @@ public class RepairOrder {
         this.checkerName = checkerName == null ? null : checkerName.trim();
     }
 
-    public Integer getRepairStatus() {
+    public String getRepairStatus() {
         return repairStatus;
     }
 
-    public void setRepairStatus(Integer repairStatus) {
+    public void setRepairStatus(String repairStatus) {
         this.repairStatus = repairStatus;
     }
 

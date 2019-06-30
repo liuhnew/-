@@ -75,7 +75,6 @@ public class RepairOrderController extends BaseController {
         repairOrder.setRepairId(UUID.randomUUID().toString().replace("-", ""));
         repairOrder.setRepairNum("WX" + date.getSeconds() + date.getTime());
         repairOrder.setCommitName(loginInfo.getName());
-        repairOrder.setRepairStatus(0);
         repairOrder.setCreateTime(date);
 //        repairOrderService.insertSelective(repairOrder);
 
@@ -91,6 +90,8 @@ public class RepairOrderController extends BaseController {
         map.put("appointTime", repairOrder.getAppointmentTime());
         map.put("contact", repairOrder.getContactName());
         map.put("contactPhone", repairOrder.getContactTel());
+        map.put("checkerName", repairOrder.getCheckerName());
+        map.put("repairStatus", "新建");
 
 //        map.put("contactPhone", repairOrder.getContactTel());//所属组织
 //        map.put("contactPhone", repairOrder.getContactTel());//所属线路
