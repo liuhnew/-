@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jykj.dao.OrderItemsMapper">
+  <resultMap id="BaseResultMap" type="com.jykj.entity.OrderItems">
+    <constructor>
+      <idArg column="id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="repair_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="type" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="num" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="service_type" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="item_type" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="repair_items_time" javaType="java.lang.Float" jdbcType="REAL" />
+      <arg column="price" javaType="java.lang.Float" jdbcType="REAL" />
+      <arg column="detail" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, repair_id, type, num, name, service_type, item_type, repair_items_time, price, 
+    detail, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_order_items
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_order_items
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jykj.entity.OrderItems">
+    insert into t_order_items (id, repair_id, type, 
+      num, name, service_type, 
+      item_type, repair_items_time, price, 
+      detail, create_time)
+    values (#{id,jdbcType=VARCHAR}, #{repairId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{num,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{serviceType,jdbcType=VARCHAR}, 
+      #{itemType,jdbcType=VARCHAR}, #{repairItemsTime,jdbcType=REAL}, #{price,jdbcType=REAL}, 
+      #{detail,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jykj.entity.OrderItems">
+    insert into t_order_items
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="repairId != null">
+        repair_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="serviceType != null">
+        service_type,
+      </if>
+      <if test="itemType != null">
+        item_type,
+      </if>
+      <if test="repairItemsTime != null">
+        repair_items_time,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="detail != null">
+        detail,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="repairId != null">
+        #{repairId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceType != null">
+        #{serviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="itemType != null">
+        #{itemType,jdbcType=VARCHAR},
+      </if>
+      <if test="repairItemsTime != null">
+        #{repairItemsTime,jdbcType=REAL},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=REAL},
+      </if>
+      <if test="detail != null">
+        #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jykj.entity.OrderItems">
+    update t_order_items
+    <set>
+      <if test="repairId != null">
+        repair_id = #{repairId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null">
+        num = #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceType != null">
+        service_type = #{serviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="itemType != null">
+        item_type = #{itemType,jdbcType=VARCHAR},
+      </if>
+      <if test="repairItemsTime != null">
+        repair_items_time = #{repairItemsTime,jdbcType=REAL},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=REAL},
+      </if>
+      <if test="detail != null">
+        detail = #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jykj.entity.OrderItems">
+    update t_order_items
+    set repair_id = #{repairId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      num = #{num,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      service_type = #{serviceType,jdbcType=VARCHAR},
+      item_type = #{itemType,jdbcType=VARCHAR},
+      repair_items_time = #{repairItemsTime,jdbcType=REAL},
+      price = #{price,jdbcType=REAL},
+      detail = #{detail,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="listDetailByRepairId" parameterType="java.lang.String" resultType="com.jykj.entity.OrderItems">
+    select id, repair_id as repairId, type, num, name, service_type as serviceType, item_type as itemType, repair_items_time as repairItemsTime, price,
+    detail, create_time as createTime
+    from t_order_items
+    where repair_id = #{repairId}
+  </select>
+</mapper>

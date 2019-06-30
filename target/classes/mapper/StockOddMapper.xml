@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jykj.dao.StockOddMapper">
+
+    <resultMap id="BaseResultMap" type="com.jykj.entity.StockOdd">
+        <id column="id" property="id" />
+        <id column="doc_type" property="docType" />
+        <id column="purchase_goods_num" property="purchaseGoodsNum" />
+        <id column="purchase_num" property="purchaseNum" />
+        <id column="purchase_org" property="purchaseOrg" />
+        <id column="remark" property="remark" />
+        <id column="doc_state" property="docState" />
+        <id column="supplier_id" property="supplierId" />
+        <id column="supplier_name" property="supplierName" />
+        <id column="user_id" property="userId" />
+        <id column="true_name" property="trueName" />
+    </resultMap>
+
+    <insert id="save" parameterType="com.jykj.entity.StockOdd">
+        insert into t_stock_odd (doc_type, purchase_goods_num, purchase_num, purchase_org, remark, doc_state, supplier_id, user_id)
+        values (#{docType},#{purchaseGoodsNum},#{purchaseNum},#{purchaseOrg},#{remark},#{docState},#{supplierId},#{userId})
+    </insert>
+
+    <select id="list" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT a.id, a.doc_type, a.purchase_goods_num, a.purchase_num, a.purchase_org, a.remark, a.doc_state, a.supplier_id, b.name as supplier_name, a.user_id, c.true_name, a.create_time
+        FROM t_stock_odd AS a
+        LEFT JOIN t_supplier as b on a.supplier_id = b.id
+		LEFT JOIN t_user AS c on a.user_id = c.id
+        where true
+        <if test="purchaseRevieceNum!=null and purchaseRevieceNum!=''">
+            and a.purchase_goods_num like concat('%', #{purchaseRevieceNum}, '%')
+        </if>
+        <if test="purchaseNum!=null and purchaseNum !=''">
+            and a.purchase_num like concat('%', #{purchaseNum},'%')
+        </if>
+        <if test="purchaseOrg!=null and purchaseOrg!=''">
+            and a.purchase_org like concat('%',#{purchaseOrg}, '%')
+        </if>
+        <if test="supplierName!=null and supplierName!=''">
+            and b.name like concat('%',#{supplierName}, '%')
+        </if>
+        <if test="docType!=null">
+            and a.doc_type = #{docType}
+        </if>
+        <if test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+            and DATE_FORMAT(a.create_time, '%Y-%m-%d') <![CDATA[ >= ]]> #{startTime}
+            and DATE_FORMAT(a.create_time, '%Y-%m-%d') <![CDATA[ <= ]]> #{endTime}
+        </if>
+    </select>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultType="com.jykj.entity.StockOdd">
+        SELECT a.id, a.doc_type, a.purchase_goods_num, a.purchase_num, a.purchase_org, a.remark, a.doc_state, a.supplier_id, a.user_id, a.create_time
+        FROM t_stock_odd AS a
+        where a.id = #{id}
+    </select>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from t_stock_odd where id = #{id}
+    </delete>
+
+
+</mapper>

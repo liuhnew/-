@@ -30,9 +30,6 @@ public class AllotController {
     @Autowired
     private GoodsService goodsService;
 
-    @Resource
-    private MongoDBCollectionOperation mongoDBCollectionOperation;
-
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "goodsId", value = "商品主键ID", required = false, dataType = "String", defaultValue = "1"),
             @ApiImplicitParam(paramType = "query", name = "num", value = "申请数量", required = false, dataType = "String", defaultValue = "20"),

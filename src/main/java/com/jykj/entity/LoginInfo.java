@@ -14,7 +14,17 @@ public class LoginInfo {
 
     private String name;
 
+    private String roleName;
+
     private String tenant;
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
 
     public String getAud() {
         return aud;

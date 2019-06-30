@@ -8,7 +8,11 @@ import com.jykj.entity.Result;
 import com.jykj.entity.WaitTask;
 import com.jykj.mongo.MongoDBCollectionOperation;
 import com.jykj.service.ProcessModelService;
+import com.jykj.service.RunTaskService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -16,6 +20,8 @@ import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +40,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/service/fix/")
 public class WaitTaskController extends BaseController {
+
+    private Logger logger = LoggerFactory.getLogger(WaitTaskController.class);
 
     @Autowired
     private ProcessModelService processModelService;
@@ -47,6 +57,12 @@ public class WaitTaskController extends BaseController {
 
     @Autowired
     private MongoDBCollectionOperation tenantStaffMongoDBCollection;
+
+    @Autowired
+    private RunTaskService runTaskService;
+
+    @Autowired
+    private TaskService taskService;
 
     @RequestMapping(value = "/waitTask", method = RequestMethod.POST)
     public Result waitTaskList(String vehicleNum,
@@ -88,5 +104,21 @@ public class WaitTaskController extends BaseController {
         PageInfo<OverTask> pageInfo = new PageInfo<>(list);
         return Result.createSuccess("查询成功", pageInfo);
     }
+
+    @ApiOperation(value = "办理委派任务", notes = "办理委派任务")
+    @ApiImplicitParams({
+            @ApiImplicitParam(dataType = "string", defaultValue = "", name = "taskId", value = "任务ID", paramType = "query"),
+            @ApiImplicitParam(dataType = "string", defaultValue = "", name = "remark", paramType = "query"),
+    })
+    @RequestMapping(value = "hanleWX2", method = RequestMethod.POST)
+    public Result handleWX2(String taskId,
+                            HttpSession session,
+                            HttpServletRequest request) {
+        LoginInfo loginInfo = getUserInfo(request);
+        logger.info("+++++++++" + loginInfo.getName() + "办理委派任务");
+        taskService.getVariable(taskId, "repairId");
+        return Result.createSuccess("asdasd");
+    }
+
 
 }

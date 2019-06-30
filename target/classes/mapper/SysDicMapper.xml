@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jykj.dao.SysDicMapper" >
+  <resultMap id="BaseResultMap" type="com.jykj.entity.SysDic" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="dic_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="english" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="parent_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="code" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sort_code" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="remark" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ban_delete" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, dic_name, english, parent_id, code, sort_code, remark, ban_delete
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sys_dic
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_sys_dic
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jykj.entity.SysDic" >
+    insert into t_sys_dic (id, dic_name, english, 
+      parent_id, code, sort_code, 
+      remark, ban_delete)
+    values (#{id,jdbcType=INTEGER}, #{dicName,jdbcType=VARCHAR}, #{english,jdbcType=VARCHAR}, 
+      #{parentId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{sortCode,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{banDelete,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jykj.entity.SysDic" >
+    insert into t_sys_dic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="dicName != null" >
+        dic_name,
+      </if>
+      <if test="english != null" >
+        english,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="sortCode != null" >
+        sort_code,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="banDelete != null" >
+        ban_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dicName != null" >
+        #{dicName,jdbcType=VARCHAR},
+      </if>
+      <if test="english != null" >
+        #{english,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="sortCode != null" >
+        #{sortCode,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="banDelete != null" >
+        #{banDelete,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jykj.entity.SysDic" >
+    update t_sys_dic
+    <set >
+      <if test="dicName != null" >
+        dic_name = #{dicName,jdbcType=VARCHAR},
+      </if>
+      <if test="english != null" >
+        english = #{english,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="sortCode != null" >
+        sort_code = #{sortCode,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="banDelete != null" >
+        ban_delete = #{banDelete,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jykj.entity.SysDic" >
+    update t_sys_dic
+    set dic_name = #{dicName,jdbcType=VARCHAR},
+      english = #{english,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
+      sort_code = #{sortCode,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      ban_delete = #{banDelete,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="list" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from t_sys_dic
+    where 1 = 1
+    <if test="keyWord!=null and keyWord!=''">
+      and (dic_name like '%${keyWord}%' or english like '%${keyWord}%' or code like '%${keyWord}%' or remark like '%${keyWord}%')
+    </if>
+  </select>
+</mapper>

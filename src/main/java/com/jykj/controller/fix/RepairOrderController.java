@@ -79,27 +79,28 @@ public class RepairOrderController extends BaseController {
         repairOrder.setCreateTime(date);
 //        repairOrderService.insertSelective(repairOrder);
 
-        //默认模型ID 为 1
-        Model modelData = repositoryService.getModel("1");
-        List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().deploymentId(modelData.getDeploymentId()).list();
-        if (list.size()<=0){
-            return Result.createSuccess("该流程定义还未部署");
-        }
-        String key = list.get(0).getKey();
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("USERNAME", loginInfo.getSub());
+        map.put("commitName", repairOrder.getCommitName());
+        map.put("repairNum", repairOrder.getRepairNum());
+        map.put("repairId", repairOrder.getRepairId());
+        map.put("repairType", repairOrder.getOrderType());
+        map.put("vehicleNum", repairOrder.getVehicleNum());
+        map.put("vin", repairOrder.getVin());
+        map.put("engineNo", repairOrder.getEngineNo());
+        map.put("appointTime", repairOrder.getAppointmentTime());
+        map.put("contact", repairOrder.getContactName());
+        map.put("contactPhone", repairOrder.getContactTel());
 
-        Map<String,Object> variables = new HashMap<String,Object>();
-        variables.put("USERNAME", loginInfo.getSub());
-        RuntimeService runtimeService = processEngine.getRuntimeService();
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(key, variables);
+//        map.put("contactPhone", repairOrder.getContactTel());//所属组织
+//        map.put("contactPhone", repairOrder.getContactTel());//所属线路
 
-        Task task = processEngine.getTaskService().createTaskQuery().processInstanceId(processInstance.getProcessInstanceId()).orderByProcessInstanceId().desc().singleResult();
-
-        TaskService taskService = processEngine.getTaskService();
-        taskService.complete(task.getId());
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("KEY_weixiu", map);
 
         repairOrder.setProcessInstanceId(processInstance.getId());
+        repairOrder.setTaskId(processInstance.getId());
         repairOrderService.insertSelective(repairOrder);
-        return Result.createSuccess("添加成功", task);
+        return Result.createSuccess("添加成功", repairOrder);
     }
 
     @ApiImplicitParams({

@@ -205,11 +205,11 @@ public class MyController {
     }
 
 
-    @ApiOperation(value = "历史流程",  notes = "历史流程")
-    @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "taskId", value = "查询所有", required = false, dataType = "String", defaultValue = "")
-    })
-    @RequestMapping(value = "hiProcess", method = RequestMethod.POST)
+//    @ApiOperation(value = "历史流程",  notes = "历史流程")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(paramType = "query", name = "taskId", value = "查询所有", required = false, dataType = "String", defaultValue = "")
+//    })
+//    @RequestMapping(value = "hiProcess", method = RequestMethod.POST)
     public Result hiProcess() {
         HistoryService historyService = processEngine.getHistoryService();
         List<HistoricProcessInstance> list = historyService.createHistoricProcessInstanceQuery()
