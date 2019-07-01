@@ -27,14 +27,6 @@ public class RepairOrder {
 
     private String repairMessage;
 
-    private String vin;
-
-    private String engineNo;
-
-    private String processInstanceId;
-
-    private String taskId;
-
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
@@ -63,11 +55,17 @@ public class RepairOrder {
     private Integer orderType;
 
     private String farm;
+    private String vin;
+
+    private String engineNo;
+
+    private String processInstanceId;
+
+    private String taskId;
 
     private String dealerName;
 
-    public RepairOrder(String repairId, String repairNum, String driverName, String driverNum, String commitName, String checkerName,
-                       String repairStatus, String vehicleNum, String tenantId, String tenantName, String repairMessage, String vin, String engineNo, Date createTime, Date appointmentTime, Date getTime, Date updateTime, Date endTime, String repairProgress, String contactName, String contactTel, String remark, String pickGoodsId, Integer orderType, String farm) {
+    public RepairOrder(String repairId, String repairNum, String driverName, String driverNum, String commitName, String checkerName, String repairStatus, String vehicleNum, String tenantId, String tenantName, String repairMessage, Date createTime, Date appointmentTime, Date getTime, Date updateTime, Date endTime, String repairProgress, String contactName, String contactTel, String remark, String pickGoodsId, Integer orderType, String farm, String vin, String engineNo, String processInstanceId, String taskId, String dealerName) {
         this.repairId = repairId;
         this.repairNum = repairNum;
         this.driverName = driverName;
@@ -79,8 +77,6 @@ public class RepairOrder {
         this.tenantId = tenantId;
         this.tenantName = tenantName;
         this.repairMessage = repairMessage;
-        this.vin = vin;
-        this.engineNo = engineNo;
         this.createTime = createTime;
         this.appointmentTime = appointmentTime;
         this.getTime = getTime;
@@ -93,6 +89,11 @@ public class RepairOrder {
         this.pickGoodsId = pickGoodsId;
         this.orderType = orderType;
         this.farm = farm;
+        this.vin = vin;
+        this.engineNo = engineNo;
+        this.processInstanceId = processInstanceId;
+        this.taskId = taskId;
+        this.dealerName = dealerName;
     }
 
     public String getDealerName() {

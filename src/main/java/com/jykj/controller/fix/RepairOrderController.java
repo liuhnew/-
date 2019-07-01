@@ -74,7 +74,7 @@ public class RepairOrderController extends BaseController {
         Date date = new Date();
         repairOrder.setRepairId(UUID.randomUUID().toString().replace("-", ""));
         repairOrder.setRepairNum("WX" + date.getSeconds() + date.getTime());
-        repairOrder.setCommitName(loginInfo.getName());
+        repairOrder.setCommitName(loginInfo.getSub());
         repairOrder.setCreateTime(date);
 //        repairOrderService.insertSelective(repairOrder);
 

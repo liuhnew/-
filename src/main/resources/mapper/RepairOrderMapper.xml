@@ -27,9 +27,9 @@
       <arg column="farm" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="vin" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="engine_no" javaType="java.lang.String" jdbcType="VARCHAR" />
-        <arg column="process_instance_id" javaType="java.lang.String" jdbcType="VARCHAR" />
-        <arg column="task_id" javaType="java.lang.String" jdbcType="VARCHAR" />
-        <arg column="dealer_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="process_instance_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="task_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="dealer_name" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
@@ -38,9 +38,15 @@
     end_time, repair_progress, contact_name, contact_tel, remark, pick_goods_id, order_type, farm, vin, engine_no,
     process_instance_id, task_id, dealer_name
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultType="com.jykj.entity.RepairOrder">
     select 
-    <include refid="Base_Column_List" />
+    repair_id as repairId, repair_num as repairNum, driver_name as driverName, driver_num as driverNum, commit_name as commitName,
+    checker_name as checkerName, repair_status as repairStatus,
+    vehicle_num as vehicleNum, tenant_id tenantId, repair_message as repairMessage, create_time as createTime,
+    appointment_time as appointmentTime, get_time as getTime, update_time as updateTime,
+    end_time as endTime, repair_progress as repairProgress, contact_name as contactName, contact_tel as contactTel,
+    remark, pick_goods_id as pickGoodsId, order_type as orderType, farm, vin, engine_no as engineNo,
+    process_instance_id as processInstanceId, task_id as taskId, dealer_name as dealerName
     from t_repair_order
     where repair_id = #{repairId,jdbcType=VARCHAR}
   </select>

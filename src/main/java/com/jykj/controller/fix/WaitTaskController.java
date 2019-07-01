@@ -1,6 +1,7 @@
 package com.jykj.controller.fix;
 
 import com.github.pagehelper.PageInfo;
+import com.jykj.config.Jurisdiction;
 import com.jykj.controller.BaseController;
 import com.jykj.entity.*;
 import com.jykj.mongo.MongoDBCollectionOperation;
@@ -107,6 +108,51 @@ public class WaitTaskController extends BaseController {
         PageInfo<OverTask> pageInfo = new PageInfo<>(list);
         return Result.createSuccess("查询成功", pageInfo);
     }
+
+    @ApiOperation(value = "WX1", notes = "WX1")
+    @ApiImplicitParams({
+            @ApiImplicitParam(dataType = "string", defaultValue = "", name = "taskId", value = "任务ID", paramType = "query"),
+    })
+    @RequestMapping(value = "/handleWX1",method = RequestMethod.POST)
+    public Result handleWX1(String taskId,
+                            String msg,
+                            String option,
+                            HttpServletRequest request){
+        LoginInfo loginInfo = getUserInfo(request);
+        String sfrom = "";
+        Object ofrom = taskService.getVariable(taskId, "repairId");
+        if (null != ofrom) {
+            sfrom = ofrom.toString();
+        }
+        Map<String, Object> map = new LinkedHashMap<>();
+        String assignee = "";
+        Map<String, Object> task = runTaskService.listbyTaskId(taskId);
+        String currentTaskKey = task.get("TASK_DEF_KEY_").toString();
+        //获取工单信息
+        String repairId = (String) taskService.getVariable(taskId, "repairId");
+        RepairOrder repairOrder = repairOrderService.selectByPrimaryKey(repairId);
+        if ("WX1".equals(currentTaskKey)) {
+            repairOrder.setRepairStatus("申请工单");
+            repairOrder.setUpdateTime(new Date());
+            String userList =  findCJAdmin(repairOrder.getCommitName());
+            assignee = userList;
+        }
+        if (StringUtil.isNotEmpty(assignee)) {
+            System.out.println(Jurisdiction.getSession().getAttribute("TASKID"));
+            String TASKID = Jurisdiction.getSession().getAttribute("TASKID").toString();
+            taskService.setAssignee(TASKID, assignee);
+
+//            taskService.complete(taskId);
+        }else {
+            Object os = request.getSession().getAttribute("YAssignee");
+            if(null != os && !"".equals(os.toString())){
+                assignee = os.toString();										//没有指定就是默认流程的待办人
+            }
+        }
+        repairOrderService.updateByPrimaryKeySelective(repairOrder);
+        return Result.createSuccess("提交成功");
+    }
+
 
     @ApiOperation(value = "办理委派任务", notes = "办理委派任务")
     @ApiImplicitParams({

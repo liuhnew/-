@@ -27,6 +27,7 @@ public class TaskListenHandler implements TaskListener {
     @Override
     public void notify(DelegateTask delegateTask) {
         HttpSession session = Jurisdiction.getSession();
+        log.info("+++++session++++++" + session);
         session.setAttribute("TASKID", delegateTask.getId());			//任务ID
         session.setAttribute("YAssignee", delegateTask.getAssignee());	//默认待办人
      }
