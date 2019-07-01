@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
 
 public class TaskListenHandler implements TaskListener {
 
@@ -26,9 +27,8 @@ public class TaskListenHandler implements TaskListener {
 
     @Override
     public void notify(DelegateTask delegateTask) {
-        HttpSession session = Jurisdiction.getSession();
-        log.info("+++++session++++++" + session);
-        session.setAttribute("TASKID", delegateTask.getId());			//任务ID
-        session.setAttribute("YAssignee", delegateTask.getAssignee());	//默认待办人
+        ConcurrentMap<String,String> concurrentMap = Jurisdiction.concurrentMap;
+        concurrentMap.put("TASKID", delegateTask.getId());			//任务ID
+        concurrentMap.put("YAssignee", delegateTask.getAssignee());	//默认待办人
      }
 }

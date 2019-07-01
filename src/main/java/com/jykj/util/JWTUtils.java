@@ -48,7 +48,6 @@ public class JWTUtils{
                 loginInfo.setName(map.get("name").toString());
                 loginInfo.setTenant(map.get("tenant").toString());
                 session.setAttribute("loginInfo", loginInfo);
-                Jurisdiction.session = session;
             }
         });
     }

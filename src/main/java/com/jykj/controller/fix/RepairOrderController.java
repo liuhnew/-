@@ -100,6 +100,7 @@ public class RepairOrderController extends BaseController {
 
         repairOrder.setProcessInstanceId(processInstance.getId());
         repairOrder.setTaskId(processInstance.getId());
+
         repairOrderService.insertSelective(repairOrder);
         return Result.createSuccess("添加成功", repairOrder);
     }

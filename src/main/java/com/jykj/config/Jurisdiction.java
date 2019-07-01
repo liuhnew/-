@@ -1,13 +1,13 @@
 package com.jykj.config;
-
-import javax.servlet.http.HttpSession;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class Jurisdiction {
 
-    public static HttpSession session;
+    public static ConcurrentMap<String,String> concurrentMap = new ConcurrentHashMap<>();
 
-    public static HttpSession getSession() {
-        return session;
+    public static String getConcurrentMap(String key) {
+        return concurrentMap.get(key);
     }
 
 }

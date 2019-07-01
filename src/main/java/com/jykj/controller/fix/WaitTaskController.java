@@ -138,11 +138,11 @@ public class WaitTaskController extends BaseController {
             assignee = userList;
         }
         if (StringUtil.isNotEmpty(assignee)) {
-            System.out.println(Jurisdiction.getSession().getAttribute("TASKID"));
-            String TASKID = Jurisdiction.getSession().getAttribute("TASKID").toString();
+            System.out.println(Jurisdiction.getConcurrentMap("TASKID"));
+            String TASKID = Jurisdiction.getConcurrentMap("TASKID");
             taskService.setAssignee(TASKID, assignee);
 
-//            taskService.complete(taskId);
+            taskService.complete(taskId);
         }else {
             Object os = request.getSession().getAttribute("YAssignee");
             if(null != os && !"".equals(os.toString())){

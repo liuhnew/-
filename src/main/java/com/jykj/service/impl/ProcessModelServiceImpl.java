@@ -38,6 +38,7 @@ public class ProcessModelServiceImpl implements ProcessModelService {
                                        Integer pageSize) {
         Map<String, Object> map = new HashMap<>();
         map.put("userId", loginInfo.getSub());
+        map.put("roleId", loginInfo.getRol().get(0));
         map.put("vehicleNum", vehicleNum);
         map.put("farm", farm);
         map.put("startTime", startTime);
