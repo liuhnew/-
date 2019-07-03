@@ -25,7 +25,7 @@ public class WebAppConfigure extends WebMvcConfigurerAdapter {
 //         excludePathPatterns 用户排除拦截
         registry.addInterceptor(getWebInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns("/swagger-resources/**", "/swagger-resources/configuration/ui", "/swagger-ui.html/**", "/v2/**", "/webjars/**",
-                        path + "login", path + "logout", path + "test/test", path + "model/**", path + "editor/stencilset");
+                        path + "login", path + "logout", path + "test/test", path + "model/**", path + "editor/stencilset", path + "proManager/download");
         super.addInterceptors(registry);
     }
 

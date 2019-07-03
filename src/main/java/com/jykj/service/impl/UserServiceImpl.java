@@ -2,8 +2,11 @@ package com.jykj.service.impl;
 
 import com.jykj.entity.LoginInfo;
 import com.jykj.mongo.MongoDBCollectionOperation;
+import com.jykj.mongo.PageInfo;
 import com.jykj.service.UserService;
 import com.jykj.util.GsonUtils;
+import com.jykj.util.StringUtil;
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
@@ -11,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.*;
+import java.util.regex.Pattern;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -28,6 +32,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private MongoDBCollectionOperation tenantMainMongoDBCollection;
+
+    @Autowired
+    private MongoDBCollectionOperation tenantStaffMongoDBCollection;
 
 
     @Override
@@ -78,6 +85,39 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
+    @Override
+    public List<Map<String, Object>> queryZJY(LoginInfo loginInfo,
+                                              String userName) {
+        BasicDBObject basicDBObject = new BasicDBObject();
+        basicDBObject.put("tenant", new ObjectId(loginInfo.getTenant()));
+        basicDBObject.put("name", "质检员");
+        Map<String,Object> role = tenantRoleMongoDBCollection.findOne(basicDBObject).toMap();
+        Map<String,Object> query = new HashMap<>();
+        query.put("roles.5d06159fd5ca6ee6ca4baf2a", role.get("_id"));
+        if (StringUtil.isNotEmpty(userName)){
+            Pattern pattern = Pattern.compile("^.*"+ userName+".*$", Pattern.CASE_INSENSITIVE);
+            query.put("mobile", new BasicDBObject("$regex", pattern));
+        }
+        System.out.println(GsonUtils.getJsonFromObject(query));
+        List<DBObject> list = tenantStaffMongoDBCollection.find(query);
+        List<Map<String,Object>> resultList = new ArrayList<>();
+        Map<String,Object> temp = null;
+        for (DBObject object : list) {
+            Map<String,Object> map = object.toMap();
+            temp = new HashMap<>();
+            temp.put("id", map.get("_id").toString());
+            temp.put("status", map.get("status").toString());
+            temp.put("tenant", map.get("tenant").toString());
+            temp.put("mobile", map.get("mobile").toString());
+            temp.put("termType", map.get("termType").toString());
+            temp.put("name", map.get("name").toString());
+            temp.put("createdOn", map.get("createdOn").toString());
+            temp.put("updatedOn", map.get("updatedOn").toString());
+            resultList.add(temp);
+        }
+        return resultList;
+    }
+
     private List<String> genaten(String tenant, Map<String,Object> parent, List<String> result) {
         Object obj = parent.get(tenant);
         result.add(tenant);
@@ -86,5 +126,7 @@ public class UserServiceImpl implements UserService {
         }
         return result;
     }
+
+
 
 }

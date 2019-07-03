@@ -207,7 +207,7 @@
       left join act_re_procdef c on a.PROC_DEF_ID_ = c.ID_
       where 1 = 1
      <if test="userId!=null and userId!=''">
-        and (FIND_IN_SET(#{userId},a.ASSIGNEE_) OR FIND_IN_SET(#{roleId},a.ASSIGNEE_))
+        and (FIND_IN_SET(#{userId},a.ASSIGNEE_) OR a.ASSIGNEE_ = #{userId} OR FIND_IN_SET(#{roleId},a.ASSIGNEE_))
      </if>
      <if test="vehicleNum!=null and vehicleNum!=''">
         and  b.vehicle_num like '%${vehicleNum}%'
@@ -231,9 +231,9 @@
         from act_hi_taskinst as a
         left join t_repair_order as b on a.PROC_INST_ID_ = b.process_instance_id
         left join act_re_procdef c on a.PROC_DEF_ID_ = c.ID_
-        where 1 = 1 and a.TASK_DEF_KEY_ = 'end' and  a.END_TIME_ is not null
+        where 1 = 1
         <if test="userId!=null and userId!=''">
-            and a.ASSIGNEE_ = #{userId}
+            and (FIND_IN_SET(#{userId},a.ASSIGNEE_) OR FIND_IN_SET(#{roleId},a.ASSIGNEE_))
         </if>
         <if test="vehicleNum!=null and vehicleNum!=''">
             and  b.vehicle_num like '%${vehicleNum}%'

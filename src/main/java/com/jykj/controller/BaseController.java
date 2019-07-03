@@ -69,7 +69,7 @@ public class BaseController {
         List<String> usrNameList = new ArrayList<>();
         if (list!=null && list.size()>0) {
             for (DBObject object : list) {
-                usrNameList.add(object.toMap().get("mobile").toString());
+                usrNameList.add(object.toMap().get("_id").toString());
             }
         }
         return StringUtils.join(usrNameList, ",");
@@ -92,7 +92,7 @@ public class BaseController {
         List<String> usrNameList = new ArrayList<>();
         if (list!=null && list.size()>0) {
             for (DBObject object : list) {
-                usrNameList.add(object.toMap().get("mobile").toString());
+                usrNameList.add(object.toMap().get("_id").toString());
             }
         }
         return StringUtils.join(usrNameList, ",");

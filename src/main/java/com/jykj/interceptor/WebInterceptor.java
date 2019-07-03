@@ -24,19 +24,22 @@ public class WebInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
-//        String accessToken = request.getHeader("Authorization");
-        String accessToken = "1 eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZDA5NzY0NTU5MzUxMzc1ZDBkNTBkOTIiLCJzdWIiOiI1ZDA2MGM0MDE1NTA2NmQ5NzhjNTI4ODMiLCJpYXQiOjE1NjEwMTgzNzAsInJvbCI6WyI1ZDBhZDg4NzE1NTA2NmQ5NzhlZDA1ZDciLCI1ZDBhZTU3NDE1NTA2NmQ5NzhlZDdhNjMiXX0.VJossaRu_r2ImZmzKuLyPJE3QESHrCoWLJpa_btwsqc";
+        String accessToken = request.getHeader("Authorization");
+//        String accessToken = "1 eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZDA5NzY0NTU5MzUxMzc1ZDBkNTBkOTIiLCJzdWIiOiI1ZDFhMDc1NGFmNmQyMWZiMWUzNTE3MmEiLCJpYXQiOjE1NjIwODA3NTEsInJvbCI6WyI1ZDExZTQzZWFmNmQyMWZiMWVmMmI0NzYiXX0.hIR_c2DAdQhJxZpKUPtgBJlDY72DWF9WwxwQ67ICjro";
+//        String accessToken = "1 eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZDA5NzY0NTU5MzUxMzc1ZDBkNTBkOTIiLCJzdWIiOiI1ZDA2MGM0MDE1NTA2NmQ5NzhjNTI4ODMiLCJpYXQiOjE1NjEwMTgzNzAsInJvbCI6WyI1ZDBhZDg4NzE1NTA2NmQ5NzhlZDA1ZDciLCI1ZDBhZTU3NDE1NTA2NmQ5NzhlZDdhNjMiXX0.VJossaRu_r2ImZmzKuLyPJE3QESHrCoWLJpa_btwsqc";
         logger.info("++++token : ++++" + accessToken);
-        String uri = request.getServletPath();
+//        String uri = request.getServletPath();
         if (accessToken == null) {
             makeErrorResponse(response, "身份认证失败，请重新登录");
             return false;
         }
-        LoginInfo loginInfo = (LoginInfo) request.getSession().getAttribute("loginInfo");
-        if (loginInfo==null) {
-            String[] array = accessToken.split(" ");
-            JWTUtils.getClaimsFormToken(request.getSession(), array[1]);
-        }
+        String[] array = accessToken.split(" ");
+        LoginInfo loginInfo = JWTUtils.getClaimsFormToken(request.getSession(), array[1], new LoginInfo());
+//        LoginInfo sessionValue = (LoginInfo) request.getSession().getAttribute("loginInfo");
+//        if (sessionValue!=null&&!loginInfo.getSub().equals(sessionValue.getSub())){
+//
+//        }
+        request.getSession().setAttribute("loginInfo", loginInfo);
         return true;
     }
 

@@ -10,4 +10,7 @@ public interface UserService {
     Map<String,Object> listPermission(LoginInfo loginInfo);
 
     List<String> tenantList(String tenant);
+
+    List<Map<String,Object>> queryZJY(LoginInfo loginInfo,
+                                      String userName);
 }

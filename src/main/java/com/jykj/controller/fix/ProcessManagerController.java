@@ -5,9 +5,7 @@ import com.jykj.entity.ProDefEntity;
 import com.jykj.entity.Result;
 import com.jykj.service.ProcessManagerService;
 import com.jykj.service.RunTaskService;
-import com.jykj.util.DelAllFile;
-import com.jykj.util.FileUpload;
-import com.jykj.util.PathUtil;
+import com.jykj.util.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -100,6 +98,10 @@ public class ProcessManagerController {
                 if (name.indexOf("zip")!=-1) continue;
                 in = repositoryService.getResourceAsStream(deploymentId, name);
                 FileUpload.copyFile(in, PathUtil.getClasspath() + "uploadFiles/activitiFile/" , name);
+            }
+            if(FileZip.zip(PathUtil.getClasspath()+"uploadFiles/activitiFile", PathUtil.getClasspath()+"uploadFiles/activitiFile.zip")){
+                /*下载代码*/
+                FileDownload.fileDownload(response, PathUtil.getClasspath()+"uploadFiles/activitiFile.zip", "activitiFile.zip");
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -13,7 +13,10 @@ import io.vertx.ext.auth.jwt.JWTAuthOptions;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionContext;
+import java.util.Enumeration;
 import java.util.Map;
 
 @Component
@@ -26,29 +29,33 @@ public class JWTUtils{
         this.publicKey = publicKey;
     }
 
-    public static void getClaimsFormToken(HttpSession session,
-                                          String token) {
+    public static LoginInfo getClaimsFormToken(HttpSession session,
+                                               String token,
+                                               LoginInfo loginInfo) {
         JWTAuthOptions config = new JWTAuthOptions()
                 .addPubSecKey(new PubSecKeyOptions().setAlgorithm("HS256").setPublicKey(publicKey).setSymmetric(true));
         JWTAuth provider = JWTAuth.create(Vertx.vertx(), config);
         provider.authenticate(new JsonObject().put("jwt", token), res ->  {
             if (res.succeeded()) {
-                LoginInfo loginInfo = new LoginInfo();
                 JsonObject object = res.result().principal();
                 loginInfo.setAud(object.getString("aud"));
                 loginInfo.setSub(object.getString("sub"));
                 loginInfo.setIat(object.getInteger("iat"));
                 JsonArray array = object.getJsonArray("rol");
                 loginInfo.setRol(array.getList());
-
+                System.out.println(GsonUtils.getJsonFromObject(loginInfo));
                 MongoDBCollectionOperation tenantStaffMongoDBCollection =
                         (MongoDBCollectionOperation)SpringApplicationContextHolder.getSpringBean("tenantStaffMongoDBCollection");
 
                 Map<String,Object> map = tenantStaffMongoDBCollection.findOne(loginInfo.getSub());
                 loginInfo.setName(map.get("name").toString());
                 loginInfo.setTenant(map.get("tenant").toString());
-                session.setAttribute("loginInfo", loginInfo);
             }
         });
+        return loginInfo;
+    }
+
+    public static void main(String[] args) {
+
     }
 }

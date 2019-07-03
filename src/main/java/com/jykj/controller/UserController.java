@@ -8,6 +8,9 @@ import com.jykj.service.UserService;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -62,5 +65,17 @@ public class UserController extends BaseController{
 		List<String> result = tenantList(request);
 		return Result.createSuccess("查询",result);
 	}
+
+	@ApiOperation(value = "查询质检员", notes = "查询质检员")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userName", value = "用户手机号", dataType = "string", paramType = "query"),
+    })
+    @RequestMapping(value = "queryZJY", method = RequestMethod.POST)
+    public Result queryZJY(String userName,
+                           HttpServletRequest request) throws Exception {
+	    LoginInfo loginInfo = getUserInfo(request);
+        List<Map<String,Object>> result = userService.queryZJY(loginInfo, userName);
+        return Result.createSuccess("查询",result);
+    }
 
 }

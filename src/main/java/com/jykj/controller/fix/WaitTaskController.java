@@ -7,6 +7,7 @@ import com.jykj.entity.*;
 import com.jykj.mongo.MongoDBCollectionOperation;
 import com.jykj.service.*;
 import com.jykj.util.StringUtil;
+import com.mongodb.DBObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -78,12 +79,15 @@ public class WaitTaskController extends BaseController {
                                HttpServletRequest request) {
         LoginInfo loginInfo = getUserInfo(request);
         List<WaitTask> list = processModelService.waitTaskList(loginInfo, vehicleNum, farm, startTime, endTime, pageIndex, pageSize);
-        for (WaitTask waitTask: list) {
-            Map<String,Object> map = tenantStaffMongoDBCollection.findById(waitTask.getAssignee()).toMap();
-            if (map.get("name")!=null){
-                waitTask.setAssigneeName(map.get("name").toString());
-            }
-        }
+//        for (WaitTask waitTask: list) {
+//            Object object = tenantStaffMongoDBCollection.findById(waitTask.getAssignee());
+//            if (object!=null) {
+//                Map<String,Object> map = ((DBObject) object).toMap();
+//                if (map.get("name")!=null){
+//                    waitTask.setAssigneeName(map.get("name").toString());
+//                }
+//            }
+//        }
         PageInfo<WaitTask> pageInfo = new PageInfo<>(list);
         return Result.createSuccess("查询成功", pageInfo);
     }
@@ -177,7 +181,7 @@ public class WaitTaskController extends BaseController {
         String currentTaskKey = task.get("TASK_DEF_KEY_").toString();
         Map<String,Object> map = new HashMap<>();
         if ("WX2".equals(currentTaskKey)){
-            taskService.setVariable(taskId, "checkerName", assignee);
+            taskService.setVariable(taskId, "checkerId", assignee);
             repairOrder.setCheckerName(assignee);
             repairOrder.setRepairStatus("指定质检员");
             repairOrder.setUpdateTime(new Date());
@@ -191,20 +195,20 @@ public class WaitTaskController extends BaseController {
 //        String roleName = loginInfo.getRoleName();
         if ("WXSJ".equals(currentTaskKey)){
             if ("yes".equals(msg)) {
-                map.put("处理结果", option);
+                map.put("RESULT", option);
                 map.put("车间管理员", loginInfo.getName());
                 taskService.setVariables(taskId, map);
                 taskService.complete(taskId);
             }else{												//驳回
-                map.put("处理结果", option);		//审批结果
+                map.put("RESULT", option);		//审批结果
                 taskService.setVariables(taskId, map);
                 taskService.complete(taskId);
             }
-            assignee = findCJAdmin(loginInfo.getName());
+            assignee = findCJAdmin(loginInfo.getSub());
         }
         if ("WX2".equals(currentTaskKey)) {
             if ("yes".equals(msg)) {
-                map.put("处理结果", option);
+                map.put("RESULT", option);
                 map.put("车间管理员", loginInfo.getName());
 //                repairOrder.setc需添加当前处理人
                 taskService.setVariablesLocal(taskId, map);
@@ -214,24 +218,25 @@ public class WaitTaskController extends BaseController {
                 taskService.setVariablesLocal(taskId, map);
                 taskService.complete(taskId);
             }
-            assignee = findCJAdmin(findCJAdmin(loginInfo.getSub()));
+//            assignee = findCJAdmin(loginInfo.getSub());
         }
         if ("WXJD".equals(currentTaskKey)){
             if ("yes".equals(msg)) {
                 repairOrder.setRepairStatus("接单");
                 repairOrder.setUpdateTime(new Date());
 //                repairOrder.set
-                map.put("处理结果", "接单");	//审批结果
+                map.put("RESULT", "接单");	//审批结果
                 map.put("车间管理员", loginInfo.getName());	//审批结果
                 taskService.setVariables(taskId,map);			//设置流程变量
                 taskService.complete(taskId);
-                assignee = findCJAdmin(loginInfo.getName());
+                assignee = findCJAdmin(loginInfo.getSub());
             }else {
                 assignee = findCJAdmin(loginInfo.getSub());
             }
         }
         if ("RBJD".equals(currentTaskKey)){
             if ("yes".equals(msg)) {
+
                 repairOrder.setRepairStatus("回退接单");
                 repairOrder.setUpdateTime(new Date());
                 //保存当前处理人
@@ -244,7 +249,7 @@ public class WaitTaskController extends BaseController {
         repairOrderService.updateByPrimaryKeySelective(repairOrder);
 
         if (StringUtil.isNotEmpty(assignee)){
-            taskService.setAssignee(session.getAttribute("TASKID").toString(), assignee);
+            taskService.setAssignee(Jurisdiction.getConcurrentMap("TASKID"), assignee);
         }else {
 
         }
@@ -260,7 +265,6 @@ public class WaitTaskController extends BaseController {
                             String option,
                             String msg,
                             String proInstanceId,
-                            String remark,
                             HttpSession session,
                             HttpServletRequest request) {
         LoginInfo loginInfo = getUserInfo(request);
@@ -305,11 +309,8 @@ public class WaitTaskController extends BaseController {
         }else {
             assignee = findCJAdmin(repairOrder.getDealerName());
         }
-
         if (StringUtil.isNotEmpty(assignee)) {
-            taskService.setAssignee(session.getAttribute("TASKID").toString(), assignee);
-        }else {
-
+            taskService.setAssignee(Jurisdiction.getConcurrentMap("TASKID"), assignee);
         }
         return Result.createSuccess("提交成功");
     }
@@ -371,7 +372,7 @@ public class WaitTaskController extends BaseController {
             assignee = assignee = findCJAdmin(loginInfo.getSub());
         }
         if (StringUtil.isNotEmpty(assignee)) {
-            taskService.setAssignee(session.getAttribute("TASKID").toString(), assignee);
+            taskService.setAssignee(Jurisdiction.getConcurrentMap("TASKID"), assignee);
         }else {
 
         }
@@ -497,7 +498,7 @@ public class WaitTaskController extends BaseController {
         repairOrder.setUpdateTime(new Date());
         repairOrderService.updateByPrimaryKeySelective(repairOrder);
         if (StringUtil.isNotEmpty(assignee)) {
-            taskService.setAssignee(session.getAttribute("TASKID").toString(), assignee);
+            taskService.setAssignee(Jurisdiction.getConcurrentMap("TASKID"), assignee);
         }
         return Result.createSuccess("提交成功");
     }
@@ -591,7 +592,7 @@ public class WaitTaskController extends BaseController {
         //////////////////
 //		String ASSIGNEE_ = pd.getString("ASSIGNEE_");							//下一待办对象
         if (StringUtil.isNotEmpty(assignee)) {
-               taskService.setAssignee(session.getAttribute("TASKID").toString(), assignee);
+               taskService.setAssignee(Jurisdiction.getConcurrentMap("TASKID"), assignee);
         }
 //      mv.addObject("ASSIGNEE_",ASSIGNEE_);	//用于给待办人发送新任务消息/
         return Result.createSuccess("提交成功");
